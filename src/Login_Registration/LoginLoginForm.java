@@ -27,6 +27,7 @@ public class LoginLoginForm extends javax.swing.JFrame {
      */
     public LoginLoginForm() {
         initComponents();
+        Blah();
     }
 
     /**
