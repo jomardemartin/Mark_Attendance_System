@@ -6,6 +6,9 @@
 package User_UI;
 
 import java.awt.Color;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -204,11 +207,11 @@ public class AdminEditStudent extends javax.swing.JFrame {
         student_btnLayout.setHorizontalGroup(
             student_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(student_btnLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         student_btnLayout.setVerticalGroup(
             student_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,6 +460,11 @@ public class AdminEditStudent extends javax.swing.JFrame {
         jPanel2.add(student_gradelvl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 50, 30));
 
         student_section.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Section", "Venus" }));
+        student_section.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_sectionActionPerformed(evt);
+            }
+        });
         jPanel2.add(student_section, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 130, 30));
 
         bg.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 860, 560));
@@ -557,6 +565,66 @@ public class AdminEditStudent extends javax.swing.JFrame {
 
     private void student_gradelvlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_gradelvlActionPerformed
         // TODO add your handling code here:
+        if(student_gradelvl.getSelectedItem().equals("7"))
+        {
+            try{
+                        Statement stm = MySQL_Connection.getConnection().createStatement();
+                        ResultSet rs2 = stm.executeQuery("SELECT section FROM grade_section WHERE gradelvl=7");
+                        student_section.removeAllItems();
+                        while(rs2.next()){
+                        String section2 = rs2.getString("section");
+                        student_section.addItem(section2);
+                        }
+                        }catch(Exception e){
+
+                         }
+            student_section.setSelectedItem("Select Section");
+        }
+        else if(student_gradelvl.getSelectedItem().equals("8"))
+        {
+            try{
+                        Statement stm = MySQL_Connection.getConnection().createStatement();
+                        ResultSet rs2 = stm.executeQuery("SELECT section FROM grade_section WHERE gradelvl=8");
+                        student_section.removeAllItems();
+                        while(rs2.next()){
+                        String section2 = rs2.getString("section");
+                        student_section.addItem(section2);
+                        }
+                        }catch(Exception e){
+
+                         }
+            student_section.setSelectedItem("Select Section");
+        }
+        else if(student_gradelvl.getSelectedItem().equals("9"))
+        {
+             try{
+                        Statement stm = MySQL_Connection.getConnection().createStatement();
+                        ResultSet rs2 = stm.executeQuery("SELECT section FROM grade_section WHERE gradelvl=9");
+                        student_section.removeAllItems();
+                        while(rs2.next()){
+                        String section2 = rs2.getString("section");
+                        student_section.addItem(section2);
+                        }
+                        }catch(Exception e){
+
+                         }
+             student_section.setSelectedItem("Select Section");
+        }
+        else if(student_gradelvl.getSelectedItem().equals("10"))
+        {
+             try{
+                        Statement stm = MySQL_Connection.getConnection().createStatement();
+                        ResultSet rs2 = stm.executeQuery("SELECT section FROM grade_section WHERE gradelvl=10");
+                        student_section.removeAllItems();
+                        while(rs2.next()){
+                        String section2 = rs2.getString("section");
+                        student_section.addItem(section2);
+                        }
+                        }catch(Exception e){
+
+                         }
+             student_section.setSelectedItem("Select Section");
+        }
     }//GEN-LAST:event_student_gradelvlActionPerformed
 
     private void edit_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_edit_btnMouseClicked
@@ -599,6 +667,10 @@ public class AdminEditStudent extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_edit_btnMouseClicked
+
+    private void student_sectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_sectionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_student_sectionActionPerformed
 
     /**
      * @param args the command line arguments

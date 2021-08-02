@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
@@ -73,6 +74,7 @@ public class AdminStudentManagementUI extends javax.swing.JFrame {
         student_gradelvl = new javax.swing.JComboBox<>();
         gradelvl_lbl = new javax.swing.JLabel();
         student_section = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -363,6 +365,11 @@ public class AdminStudentManagementUI extends javax.swing.JFrame {
                 edit_btnMouseClicked(evt);
             }
         });
+        edit_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit_btnActionPerformed(evt);
+            }
+        });
         bg.add(edit_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 630, 160, 40));
 
         delete_btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -374,10 +381,15 @@ public class AdminStudentManagementUI extends javax.swing.JFrame {
         search_lbl1.setText("Search:");
         bg.add(search_lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 60, 30));
 
-        student_gradelvl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "7", "8", "9", "10", " " }));
+        student_gradelvl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "7", "8", "9", "10" }));
         student_gradelvl.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 student_gradelvlItemStateChanged(evt);
+            }
+        });
+        student_gradelvl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_gradelvlActionPerformed(evt);
             }
         });
         bg.add(student_gradelvl, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 140, 80, 30));
@@ -387,13 +399,26 @@ public class AdminStudentManagementUI extends javax.swing.JFrame {
         gradelvl_lbl.setText("Grade Level:");
         bg.add(gradelvl_lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 140, 100, 30));
 
-        student_section.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Venus", " " }));
+        student_section.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Grade Level" }));
         student_section.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 student_sectionItemStateChanged(evt);
             }
         });
-        bg.add(student_section, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 140, 110, 30));
+        student_section.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_sectionActionPerformed(evt);
+            }
+        });
+        bg.add(student_section, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 140, 120, 30));
+
+        jButton1.setText("Display");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 140, 90, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -516,19 +541,109 @@ public class AdminStudentManagementUI extends javax.swing.JFrame {
 
     private void student_gradelvlItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_student_gradelvlItemStateChanged
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel> (model);
-        jTable1.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(student_gradelvl.getSelectedItem().toString()));
+    
     }//GEN-LAST:event_student_gradelvlItemStateChanged
 
     private void student_sectionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_student_sectionItemStateChanged
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel> (model);
-        jTable1.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(student_section.getSelectedItem().toString()));
     }//GEN-LAST:event_student_sectionItemStateChanged
+
+    private void edit_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_btnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edit_btnActionPerformed
+
+    private void student_gradelvlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_gradelvlActionPerformed
+        // TODO add your handling code here:
+        if(student_gradelvl.getSelectedItem().equals("7"))
+        {
+            student_section.removeAllItems();  
+            try{
+                        Statement stm1 = MySQL_Connection.getConnection().createStatement();
+                        ResultSet rs1 = stm1.executeQuery("SELECT section FROM grade_section WHERE gradelvl=7");
+                                            
+                        while(rs1.next()){
+                        String section2 = rs1.getString("section");
+                        student_section.addItem(section2);
+                        }
+                        }catch(Exception e){
+
+                         }
+                 
+        }
+        else if(student_gradelvl.getSelectedItem().equals("8"))
+        {
+            student_section.removeAllItems();
+            try{
+                        Statement stm2 = MySQL_Connection.getConnection().createStatement();
+                        ResultSet rs2 = stm2.executeQuery("SELECT section FROM grade_section WHERE gradelvl=8");
+                        
+                        while(rs2.next()){
+                        String section2 = rs2.getString("section");
+                        student_section.addItem(section2);
+                        }
+                        }catch(Exception e){
+
+                         }
+            
+        }
+        else if(student_gradelvl.getSelectedItem().equals("9"))
+        {
+            student_section.removeAllItems();
+             try{
+                        Statement stm3 = MySQL_Connection.getConnection().createStatement();
+                        ResultSet rs3 = stm3.executeQuery("SELECT section FROM grade_section WHERE gradelvl=9");
+                        
+                        while(rs3.next()){
+                        String section2 = rs3.getString("section");
+                        student_section.addItem(section2);
+                        }
+                        }catch(Exception e){
+
+                        }
+             
+        }
+        else if(student_gradelvl.getSelectedItem().equals("10"))
+        {
+            student_section.removeAllItems();
+             try{
+                        Statement stm4 = MySQL_Connection.getConnection().createStatement();
+                        ResultSet rs4 = stm4.executeQuery("SELECT section FROM grade_section WHERE gradelvl=10");
+                        
+                        while(rs4.next()){
+                        String section2 = rs4.getString("section");
+                        student_section.addItem(section2);
+                        }
+                        }catch(Exception e){
+
+                         }
+             
+        }
+    }//GEN-LAST:event_student_gradelvlActionPerformed
+
+    private void student_sectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_sectionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_student_sectionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String gradelvl2 = student_gradelvl.getSelectedItem().toString();
+        String section2 = student_section.getSelectedItem().toString();
+        PreparedStatement pst;
+        ResultSet rs;
+        String query = "SELECT student_fname as 'First Name', student_lname as 'Last Name', "
+                + "student_address as 'Address', student_gender as 'Gender', "
+                + "fathers_name as 'Fathers Name', mothers_name as 'Mothers Name', age as 'Age', "
+                + "gradelvl as 'Grade Level', section as 'Section', user_idfk as 'ID' FROM student_info WHERE gradelvl='"+ gradelvl2 +"' AND section='" + section2 + "'";
+        try {
+	pst = MySQL_Connection.getConnection().prepareStatement(query);
+	rs = pst.executeQuery();
+			
+	jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+	}
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -584,6 +699,7 @@ public class AdminStudentManagementUI extends javax.swing.JFrame {
     private javax.swing.JButton edit_btn;
     private javax.swing.JLabel gradelvl_lbl;
     private javax.swing.JPanel home_btn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

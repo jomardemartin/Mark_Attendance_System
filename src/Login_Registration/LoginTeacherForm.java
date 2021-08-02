@@ -91,6 +91,7 @@ public class LoginTeacherForm extends javax.swing.JFrame {
         jButton1_login.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton1_login.setText("Register");
         jButton1_login.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton1_login.setBorderPainted(false);
         jButton1_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1_loginActionPerformed(evt);

@@ -76,6 +76,7 @@ public class AdminTeacherManagementUI extends javax.swing.JFrame {
         search_lbl = new javax.swing.JLabel();
         department_lbl = new javax.swing.JLabel();
         subject = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -320,7 +321,7 @@ public class AdminTeacherManagementUI extends javax.swing.JFrame {
         subject_lbl.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         subject_lbl.setForeground(new java.awt.Color(255, 255, 255));
         subject_lbl.setText("Subject:");
-        bg.add(subject_lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 140, 70, 30));
+        bg.add(subject_lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 140, 70, 30));
 
         txt_search.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -375,7 +376,12 @@ public class AdminTeacherManagementUI extends javax.swing.JFrame {
                 departmentItemStateChanged(evt);
             }
         });
-        bg.add(department, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 140, 200, 30));
+        department.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                departmentActionPerformed(evt);
+            }
+        });
+        bg.add(department, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 140, 160, 30));
 
         search_lbl.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         search_lbl.setForeground(new java.awt.Color(255, 255, 255));
@@ -393,7 +399,20 @@ public class AdminTeacherManagementUI extends javax.swing.JFrame {
                 subjectItemStateChanged(evt);
             }
         });
-        bg.add(subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 140, 180, 30));
+        subject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subjectActionPerformed(evt);
+            }
+        });
+        bg.add(subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 140, 180, 30));
+
+        jButton1.setText("Display");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 140, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -509,18 +528,10 @@ public class AdminTeacherManagementUI extends javax.swing.JFrame {
 
     private void departmentItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_departmentItemStateChanged
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel> (model);
-        jTable1.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(department.getSelectedItem().toString()));
     }//GEN-LAST:event_departmentItemStateChanged
 
     private void subjectItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_subjectItemStateChanged
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel> (model);
-        jTable1.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(subject.getSelectedItem().toString()));
     }//GEN-LAST:event_subjectItemStateChanged
 
     private void delete_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delete_btnMouseClicked
@@ -541,6 +552,90 @@ public class AdminTeacherManagementUI extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_delete_btnMouseClicked
+
+    private void departmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departmentActionPerformed
+        // TODO add your handling code here:
+        if(department.getSelectedItem().equals("Kagawaran ng Filipino"))
+        {
+            subject.removeAllItems();
+            subject.addItem("Filipino");
+            subject.setSelectedItem(null);
+        }
+        else if(department.getSelectedItem().equals("Department of English"))
+        {
+            subject.removeAllItems();           
+            subject.addItem("English");
+            subject.setSelectedItem(null);
+        }
+        else if(department.getSelectedItem().equals("Department of Mathematics"))
+        {
+            subject.removeAllItems();           
+            subject.addItem("Mathematics");
+            subject.setSelectedItem(null);
+        }
+        else if(department.getSelectedItem().equals("Department of Science"))
+        {
+            subject.removeAllItems();           
+            subject.addItem("Science");
+            subject.setSelectedItem(null);
+        }
+        else if(department.getSelectedItem().equals("Araling Panlipunan Department"))
+        {
+            subject.removeAllItems();           
+            subject.addItem("Araling Panlipunan");
+            subject.setSelectedItem(null);
+        }
+        else if(department.getSelectedItem().equals("Department of Social and Behavioral Sciences"))
+        {
+            subject.removeAllItems();           
+            subject.addItem("Edukasyon sa Pagpapakatao (Esp)");
+            subject.setSelectedItem(null);
+        }
+        else if(department.getSelectedItem().equals("Department of Music & Arts"))
+        {
+            subject.removeAllItems();           
+            subject.addItem("Music & Arts");
+            subject.setSelectedItem(null);
+        }
+        else if(department.getSelectedItem().equals("Department of Human Kinetics and Health Education"))
+        {
+            subject.removeAllItems();            
+            subject.addItem("Physical Education");
+            subject.setSelectedItem(null);
+        }
+        else if(department.getSelectedItem().equals("Department of Economics"))
+        {
+            subject.removeAllItems();
+            subject.addItem("Select");
+            subject.addItem("Edukasyon Pantahanan at Pangkabuhayan (EPP)");
+            subject.addItem("Technology and Livelihood Education (TLE)");
+            subject.setSelectedItem(null);
+        }
+    }//GEN-LAST:event_departmentActionPerformed
+
+    private void subjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subjectActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_subjectActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String department2 = department.getSelectedItem().toString();
+        String subject2 = subject.getSelectedItem().toString();
+        PreparedStatement pst;
+        ResultSet rs;
+        String query = "SELECT teacher_fname as 'First Name', teacher_lname as 'Last Name', "
+                + "teacher_address as 'Address', teacher_gender as 'Gender', subject as 'Subject', "
+                + "department as 'Department', user_idfk as 'ID' FROM teacher_info WHERE department='"+ department2 +"' AND subject='" + subject2 + "'";
+        try {
+	pst = MySQL_Connection.getConnection().prepareStatement(query);
+	rs = pst.executeQuery();
+			
+	jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+	}
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -594,6 +689,7 @@ public class AdminTeacherManagementUI extends javax.swing.JFrame {
     private javax.swing.JLabel department_lbl;
     private javax.swing.JButton edit_btn;
     private javax.swing.JPanel home_btn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

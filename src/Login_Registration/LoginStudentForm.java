@@ -325,6 +325,7 @@ public class LoginStudentForm extends javax.swing.JFrame {
         student_register.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         student_register.setText("Register");
         student_register.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        student_register.setBorderPainted(false);
         student_register.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 student_registerActionPerformed(evt);
