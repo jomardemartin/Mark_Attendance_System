@@ -13,12 +13,12 @@ import javax.swing.JPanel;
  *
  * @author NEK PC
  */
-public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
+public class TeacherAttendanceSheet extends javax.swing.JFrame {
 
     /**
      * Creates new form AdminUI
      */
-    public TeacherMarkAttendanceUI() {
+    public TeacherAttendanceSheet() {
         initComponents();
         
     }
@@ -33,6 +33,10 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
     private void initComponents() {
 
         bg = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -72,6 +76,23 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
         bg.setMinimumSize(new java.awt.Dimension(1000, 720));
         bg.setPreferredSize(new java.awt.Dimension(1200, 720));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton3.setText("Enter");
+        bg.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Current Dates" }));
+        bg.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 120, 30));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New Dates" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        bg.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 220, 120, 30));
+
+        jButton2.setText("Add Date");
+        bg.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1069, 223, 80, 30));
         bg.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 250, 30));
 
         jLabel14.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
@@ -86,8 +107,8 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
         jLabel13.setText("Subject:");
         bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, -1, -1));
 
-        jButton1.setText("Enter");
-        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 210, 30));
+        jButton1.setText("Delete");
+        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 210, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,7 +118,7 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
                 {null}
             },
             new String [] {
-                "Section"
+                "Dates"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -336,7 +357,7 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setLabelFor(bg);
-        bg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 890, 720));
+        bg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 720));
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 255));
 
@@ -351,7 +372,7 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(teachermanagement_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(618, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,7 +432,7 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
         resetColor(home_btn);
         resetColor(profile_btn);
         resetColor(manage_btn);
-        TeacherMarkAttendanceUI mark = new TeacherMarkAttendanceUI();
+        TeacherAttendanceSheet mark = new TeacherAttendanceSheet();
         mark.setVisible(true);
         mark.setLocationRelativeTo(null);
         mark.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -435,6 +456,10 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_manage_btnMousePressed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -445,7 +470,7 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TeacherMarkAttendanceUI().setVisible(true);
+                new TeacherAttendanceSheet().setVisible(true);
             }
         });
     }
@@ -469,6 +494,10 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
     private javax.swing.JPanel bg;
     private javax.swing.JPanel home_btn;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

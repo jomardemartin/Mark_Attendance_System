@@ -6,23 +6,67 @@
 package User_UI;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author NEK PC
  */
-public class TeacherManageAttendanceUI extends javax.swing.JFrame {
+public class TeacherAttendanceStudentList extends javax.swing.JFrame {
 
     /**
      * Creates new form AdminUI
      */
-    public TeacherManageAttendanceUI() {
+    public TeacherAttendanceStudentList() {
         initComponents();
-        
+        getStudentList();
     }
+    
+    //Arraylist for table
+    public ArrayList<StudentListTable> StudentListTableArray(){
+        ArrayList<StudentListTable> studentlist = new ArrayList<StudentListTable>();
 
+        PreparedStatement pst;
+        ResultSet rs;
+        String query = "SELECT * FROM student_info";
+        
+        
+        try {
+            pst = MySQL_Connection.getConnection().prepareStatement(query);
+            rs = pst.executeQuery();
+            
+            while(rs.next()){
+                StudentListTable students;
+                students = new StudentListTable(rs.getString("student_fname"),rs.getString("student_lname"));
+                studentlist.add(students);
+                
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherAttendanceStudentList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return studentlist;
+    }
+    
+    public void getStudentList(){
+        ArrayList<StudentListTable> list = StudentListTableArray();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        Object [] obj = new Object[2];
+        for (int i=0; i <list.size(); i++){
+            obj[0] = list.get(i).getName();
+            model.addRow(obj);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,6 +77,8 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
     private void initComponents() {
 
         bg = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        teachermanagement_lbl = new javax.swing.JLabel();
         sidepanel = new javax.swing.JPanel();
         home_btn = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -48,10 +94,10 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
         logout_btn = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        manage_btn = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        select_all_box = new javax.swing.JCheckBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -61,6 +107,31 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
         bg.setMinimumSize(new java.awt.Dimension(1000, 720));
         bg.setPreferredSize(new java.awt.Dimension(1200, 720));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(0, 102, 255));
+
+        teachermanagement_lbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        teachermanagement_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        teachermanagement_lbl.setText("Mark Attendance");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(teachermanagement_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(618, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(teachermanagement_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 900, 60));
 
         sidepanel.setBackground(new java.awt.Color(0, 0, 204));
         sidepanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -149,7 +220,7 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
 
         sidepanel.add(profile_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 300, 70));
 
-        mark_btn.setBackground(new java.awt.Color(0, 51, 204));
+        mark_btn.setBackground(new java.awt.Color(0, 102, 255));
         mark_btn.setToolTipText("");
         mark_btn.setMinimumSize(new java.awt.Dimension(260, 0));
         mark_btn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -244,57 +315,41 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
 
         sidepanel.add(logout_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 300, 50));
 
-        manage_btn.setBackground(new java.awt.Color(0, 102, 255));
-        manage_btn.setToolTipText("");
-        manage_btn.setMinimumSize(new java.awt.Dimension(260, 0));
-        manage_btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                manage_btnMousePressed(evt);
-            }
-        });
-
-        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Manage Attendance");
-        jLabel11.setMaximumSize(new java.awt.Dimension(51, 25));
-        jLabel11.setMinimumSize(new java.awt.Dimension(51, 25));
-        jLabel11.setPreferredSize(new java.awt.Dimension(51, 25));
-
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User_UI/images/icons8_attendance_32px.png"))); // NOI18N
-
-        javax.swing.GroupLayout manage_btnLayout = new javax.swing.GroupLayout(manage_btn);
-        manage_btn.setLayout(manage_btnLayout);
-        manage_btnLayout.setHorizontalGroup(
-            manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(manage_btnLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
-        manage_btnLayout.setVerticalGroup(
-            manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(manage_btnLayout.createSequentialGroup()
-                .addGroup(manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(manage_btnLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, manage_btnLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        sidepanel.add(manage_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 300, 70));
-
         bg.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 720));
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setLabelFor(bg);
-        bg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 720));
+        select_all_box.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        select_all_box.setText("Select All");
+        select_all_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                select_all_boxActionPerformed(evt);
+            }
+        });
+        bg.add(select_all_box, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 150, -1, -1));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student Name", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable1.setColumnSelectionAllowed(true);
+        jScrollPane2.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 770, 500));
+
+        jButton1.setText("Print Record");
+        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 153, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -315,7 +370,7 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
         setColor(home_btn);
         resetColor(profile_btn);
         resetColor(mark_btn);
-        resetColor(manage_btn);
+        
         TeacherHomeUI home = new TeacherHomeUI();
         home.setVisible(true);
         home.setLocationRelativeTo(null);
@@ -328,8 +383,8 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
         setColor(profile_btn);
         resetColor(home_btn);
         resetColor(mark_btn);
-        resetColor(manage_btn);
-        TeacherViewProfileUI view = new TeacherViewProfileUI();
+        
+        TeacherAttendanceStudentList view = new TeacherAttendanceStudentList();
         view.setVisible(true);
         view.setLocationRelativeTo(null);
         view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -341,7 +396,7 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
         setColor(mark_btn);
         resetColor(home_btn);
         resetColor(profile_btn);
-        resetColor(manage_btn);
+       
         TeacherMarkAttendanceUI mark = new TeacherMarkAttendanceUI();
         mark.setVisible(true);
         mark.setLocationRelativeTo(null);
@@ -354,18 +409,9 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_logout_btnMousePressed
 
-    private void manage_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manage_btnMousePressed
+    private void select_all_boxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_select_all_boxActionPerformed
         // TODO add your handling code here:
-        setColor(manage_btn);
-        resetColor(home_btn);
-        resetColor(profile_btn);
-        resetColor(mark_btn);
-        TeacherManageAttendanceUI manage = new TeacherManageAttendanceUI();
-        manage.setVisible(true);
-        manage.setLocationRelativeTo(null);
-        manage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
-    }//GEN-LAST:event_manage_btnMousePressed
+    }//GEN-LAST:event_select_all_boxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -377,7 +423,7 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TeacherManageAttendanceUI().setVisible(true);
+                new TeacherAttendanceStudentList().setVisible(true);
             }
         });
     }
@@ -400,23 +446,25 @@ public class TeacherManageAttendanceUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JPanel home_btn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel logout_btn;
-    private javax.swing.JPanel manage_btn;
     private javax.swing.JPanel mark_btn;
     private javax.swing.JPanel profile_btn;
+    private javax.swing.JCheckBox select_all_box;
     private javax.swing.JPanel sidepanel;
+    private javax.swing.JLabel teachermanagement_lbl;
     // End of variables declaration//GEN-END:variables
 }
