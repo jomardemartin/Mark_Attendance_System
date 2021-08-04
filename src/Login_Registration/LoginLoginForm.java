@@ -364,7 +364,7 @@ public class LoginLoginForm extends javax.swing.JFrame {
                 this.dispose();
             }
             else{
-                JOptionPane.showMessageDialog(null, "NO");
+                JOptionPane.showMessageDialog(null, "Invalid Input");
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginLoginForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -404,7 +404,7 @@ public class LoginLoginForm extends javax.swing.JFrame {
                 this.dispose();
             }
             else{
-                JOptionPane.showMessageDialog(null, "NO");
+                JOptionPane.showMessageDialog(null, "Invalid Input");
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginLoginForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -441,7 +441,7 @@ public class LoginLoginForm extends javax.swing.JFrame {
                 this.dispose();
             }
             else{
-                JOptionPane.showMessageDialog(null, "NO");
+                JOptionPane.showMessageDialog(null, "Invalid Input");
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginLoginForm.class.getName()).log(Level.SEVERE, null, ex);
