@@ -98,6 +98,7 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -346,10 +347,13 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 770, 500));
+        bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 770, 450));
 
         jButton1.setText("Print Record");
         bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 153, -1, 20));
+
+        jButton2.setText("Submit");
+        bg.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 660, 150, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -447,6 +451,7 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
     private javax.swing.JPanel bg;
     private javax.swing.JPanel home_btn;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
