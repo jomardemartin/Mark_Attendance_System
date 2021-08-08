@@ -14,6 +14,7 @@ import java.sql.*;
 import Login_Registration.MySQL_Connection;
 import User_UI.TeacherAttendanceSheet;
 import net.proteanit.sql.DbUtils;
+import Login_Registration.LoginSession;
 
 
 /**
@@ -418,6 +419,9 @@ public class TeacherMarkAttendanceUI extends JFrame {
     private void NextScreenActionPerformed (ActionEvent ae) {
         int selectedRow = jTable1.getSelectedRow();
         String id = jTable1.getModel().getValueAt(selectedRow, 0).toString();
+
+        // Adds a new section Id for later use for next frames 
+        LoginSession.sectionId = id;
 
         TeacherAttendanceSheet new_screen = new TeacherAttendanceSheet() ;
 
