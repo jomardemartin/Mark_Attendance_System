@@ -36,11 +36,13 @@ public class TeacherMarkAttendanceUI extends JFrame {
 
         String query =  "SELECT grade_section.id, gradelvl, section FROM grade_section "
             + "INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
-            + "INNER JOIN teacher_info ON teacher_info.user_idfk = ?;";
+            + "INNER JOIN teacher_info ON teacher_info.user_idfk = tagstudent.teacher_info_user_idfk "
+            + "WHERE teacher_info.teacher_fname = ? AND teacher_info.teacher_lname = ? ";
 
         try {
             pst = MySQL_Connection.getConnection().prepareStatement(query);
-            pst.setString(1,"9");
+            pst.setString(1,LoginSession.fname);
+            pst.setString(2,LoginSession.lname);
 
             rs = pst.executeQuery();
             jTable1.setModel(DbUtils.resultSetToTableModel(rs));
