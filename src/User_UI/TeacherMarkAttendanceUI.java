@@ -27,6 +27,27 @@ public class TeacherMarkAttendanceUI extends JFrame {
      */
     public TeacherMarkAttendanceUI() {
         initComponents();
+        this.retrieveInitialData();
+    }
+
+    public void retrieveInitialData () {
+        PreparedStatement pst;
+        ResultSet rs;
+
+        String query =  "SELECT grade_section.id, gradelvl, section FROM grade_section "
+            + "INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
+            + "INNER JOIN teacher_info ON teacher_info.user_idfk = ?;";
+
+        try {
+            pst = MySQL_Connection.getConnection().prepareStatement(query);
+            pst.setString(1,"9");
+
+            rs = pst.executeQuery();
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -40,7 +61,6 @@ public class TeacherMarkAttendanceUI extends JFrame {
 
         bg = new JPanel();
         jTextField1 = new JTextField();
-        DisplaySectionsButton = new JButton () ;
         jLabel14 = new JLabel();
         jLabel15 = new JLabel();
         jLabel13 = new JLabel();
@@ -100,31 +120,6 @@ public class TeacherMarkAttendanceUI extends JFrame {
             }
         });
         bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 210, 30));
-
-
-        DisplaySectionsButton.setText("Display Sections");
-        DisplaySectionsButton.addActionListener( new ActionListener() {
-            public void actionPerformed (ActionEvent ae) {
-                PreparedStatement pst;
-                ResultSet rs;
-
-                String query =  "SELECT grade_section.id, gradelvl, section FROM grade_section "
-                    + "INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
-                    + "INNER JOIN teacher_info ON teacher_info.user_idfk = ?;";
-
-                try {
-                    pst = MySQL_Connection.getConnection().prepareStatement(query);
-                    pst.setString(1,"9");
-
-                    rs = pst.executeQuery();
-                    jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        bg.add(DisplaySectionsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 660, 210, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -513,7 +508,6 @@ public class TeacherMarkAttendanceUI extends JFrame {
     private JPanel bg;
     private JPanel home_btn;
     private JButton jButton1;
-    private JButton DisplaySectionsButton;
     private JLabel jLabel1;
     private JLabel jLabel10;
     private JLabel jLabel11;
