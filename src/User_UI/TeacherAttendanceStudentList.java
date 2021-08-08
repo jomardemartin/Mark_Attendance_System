@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import Login_Registration.LoginSession;
 
 /**
  *
@@ -36,24 +37,31 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
 
         PreparedStatement pst;
         ResultSet rs;
-        String query = "SELECT * FROM student_info";
-        
-        
+        String query = "SELECT attendance.status as status,  student_info.student_lname, student_info.student_fname "
+            + "FROM new_att_system.attendance "
+            + "INNER JOIN new_att_system.student_info ON student_info.user_idfk = attendance.student_info_user_idfk "
+            + "WHERE attendance.AttendanceRecord_id = ?";
+
         try {
             pst = MySQL_Connection.getConnection().prepareStatement(query);
+            pst.setString(1,LoginSession.dateId);
             rs = pst.executeQuery();
-            
+
             while(rs.next()){
                 StudentListTable students;
-                students = new StudentListTable(rs.getString("student_fname"),rs.getString("student_lname"));
+                students = new StudentListTable(
+                    rs.getString("student_fname"),
+                    rs.getString("student_lname"),
+                    rs.getString("status")
+                );
                 studentlist.add(students);
-                
+
 
             }
         } catch (SQLException ex) {
             Logger.getLogger(TeacherAttendanceStudentList.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return studentlist;
     }
     
@@ -63,6 +71,7 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
         Object [] obj = new Object[2];
         for (int i=0; i <list.size(); i++){
             obj[0] = list.get(i).getName();
+            obj[1] = list.get(i).getStatus();
             model.addRow(obj);
         }
     }
