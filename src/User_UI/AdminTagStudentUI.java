@@ -38,10 +38,8 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
      * Creates new form AdminUI
      */
     public AdminTagStudentUI() {
-        
         initComponents();
         table_load1();
-        
         table_load2();
     }
 

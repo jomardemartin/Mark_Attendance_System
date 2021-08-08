@@ -14,4 +14,6 @@ public class LoginSession {
         public static String lname;
         public static String username;
         public static String usertype;
+        public static String sectionId;
+        public static String dateId;
 }
