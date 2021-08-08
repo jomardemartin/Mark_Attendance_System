@@ -5,22 +5,27 @@
  */
 package User_UI;
 
-import java.awt.Color;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.*;
+import java.sql.SQLException;
+import java.awt.event.*;
+import java.sql.*;
+import Login_Registration.MySQL_Connection;
+import User_UI.TeacherAttendanceSheet;
+import net.proteanit.sql.DbUtils;
+
 
 /**
  *
  * @author NEK PC
  */
-public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
-
+public class TeacherMarkAttendanceUI extends JFrame {
     /**
      * Creates new form AdminUI
      */
     public TeacherMarkAttendanceUI() {
         initComponents();
-        
     }
 
     /**
@@ -32,15 +37,16 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bg = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        sidepanel = new javax.swing.JPanel();
+        bg = new JPanel();
+        jTextField1 = new JTextField();
+        DisplaySectionsButton = new JButton () ;
+        jLabel14 = new JLabel();
+        jLabel15 = new JLabel();
+        jLabel13 = new JLabel();
+        jButton1 = new JButton();
+        jScrollPane1 = new JScrollPane();
+        jTable1 = new JTable();
+        sidepanel = new JPanel();
         home_btn = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -87,7 +93,37 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
         bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, -1, -1));
 
         jButton1.setText("Enter");
+        jButton1.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                NextScreenActionPerformed(evt);
+            }
+        });
         bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 210, 30));
+
+
+        DisplaySectionsButton.setText("Display Sections");
+        DisplaySectionsButton.addActionListener( new ActionListener() {
+            public void actionPerformed (ActionEvent ae) {
+                PreparedStatement pst;
+                ResultSet rs;
+
+                String query =  "SELECT grade_section.id, gradelvl, section FROM grade_section "
+                    + "INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
+                    + "INNER JOIN teacher_info ON teacher_info.user_idfk = ?;";
+
+                try {
+                    pst = MySQL_Connection.getConnection().prepareStatement(query);
+                    pst.setString(1,"9");
+
+                    rs = pst.executeQuery();
+                    jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        bg.add(DisplaySectionsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 660, 210, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -379,6 +415,15 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void NextScreenActionPerformed (ActionEvent ae) {
+        int selectedRow = jTable1.getSelectedRow();
+        String id = jTable1.getModel().getValueAt(selectedRow, 0).toString();
+
+        TeacherAttendanceSheet new_screen = new TeacherAttendanceSheet() ;
+
+        this.dispose();
+        new_screen.setVisible(true);
+    }
     private void home_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_btnMousePressed
         // TODO add your handling code here:
         setColor(home_btn);
@@ -440,7 +485,7 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -449,53 +494,49 @@ public class TeacherMarkAttendanceUI extends javax.swing.JFrame {
             }
         });
     }
-    
+
     void setColor(JPanel panel){
         panel.setBackground(new Color(0, 102, 255));
     }
-    
+
     void resetColor(JPanel panel){
         panel.setBackground(new Color(0, 51, 204));
-        
+
     }
-    
-    
-    
 
-
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bg;
-    private javax.swing.JPanel home_btn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JPanel logout_btn;
-    private javax.swing.JPanel manage_btn;
-    private javax.swing.JPanel mark_btn;
-    private javax.swing.JPanel profile_btn;
-    private javax.swing.JPanel sidepanel;
-    private javax.swing.JLabel teachermanagement_lbl;
+    private JPanel bg;
+    private JPanel home_btn;
+    private JButton jButton1;
+    private JButton DisplaySectionsButton;
+    private JLabel jLabel1;
+    private JLabel jLabel10;
+    private JLabel jLabel11;
+    private JLabel jLabel12;
+    private JLabel jLabel13;
+    private JLabel jLabel14;
+    private JLabel jLabel15;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JLabel jLabel5;
+    private JLabel jLabel6;
+    private JLabel jLabel7;
+    private JLabel jLabel8;
+    private JLabel jLabel9;
+    private JPanel jPanel1;
+    private JScrollPane jScrollPane1;
+    private JSeparator jSeparator1;
+    private JTable jTable1;
+    private JTextField jTextField1;
+    private JTextField jTextField2;
+    private JTextField jTextField3;
+    private JPanel logout_btn;
+    private JPanel manage_btn;
+    private JPanel mark_btn;
+    private JPanel profile_btn;
+    private JPanel sidepanel;
+    private JLabel teachermanagement_lbl;
     // End of variables declaration//GEN-END:variables
 }
