@@ -1,6 +1,8 @@
 # Ignore build files
 build/
 
+nbproject/
+
 # macOS
 ._*
 .DS_Store
