@@ -427,6 +427,7 @@ public class LoginTeacherForm extends javax.swing.JFrame {
             }
 
             catch(SQLException ex){
+                ex.printStackTrace();
                 Logger.getLogger(LoginTeacherForm.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Username already exists! Use other usernames instead");
             }

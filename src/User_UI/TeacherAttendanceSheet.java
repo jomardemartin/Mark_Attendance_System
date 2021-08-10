@@ -43,7 +43,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
 
         bg = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
@@ -51,7 +50,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        DisplayRecordsButton = new JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         sidepanel = new javax.swing.JPanel();
@@ -88,38 +86,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton3.setText("Enter");
-        jButton3.addActionListener( new ActionListener() {
-            public void actionPerformed (ActionEvent ae) {
-                NextScreenActionPerformed(ae);
-            }
-        });
         bg.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
-
-        DisplayRecordsButton.setText("Display");
-        DisplayRecordsButton.addActionListener( new ActionListener() {
-            public void actionPerformed (ActionEvent ae) {
-
-                PreparedStatement pst;
-                ResultSet rs;
-
-                String query =  "SELECT * FROM new_att_system.AttendanceDate WHERE tagstudent_id = ?";
-                try {
-                    pst = MySQL_Connection.getConnection().prepareStatement(query);
-                    pst.setString(1,LoginSession.sectionId);
-                    rs = pst.executeQuery();
-                    jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        bg.add(DisplayRecordsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 660, 210, 30));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Current Dates" }));
-        bg.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 120, 30));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New Dates" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -545,9 +512,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton DisplayRecordsButton;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
