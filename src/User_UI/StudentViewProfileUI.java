@@ -5,13 +5,7 @@
  */
 package User_UI;
 
-import Login_Registration.LoginSession;
 import java.awt.Color;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -26,52 +20,8 @@ public class StudentViewProfileUI extends javax.swing.JFrame {
      */
     public StudentViewProfileUI() {
         initComponents();
-        loadData();
         
     }
-    public void loadData(){
-        PreparedStatement pst;
-        ResultSet rs;
-        String username = LoginSession.username;
-        String query = "SELECT student_info.student_fname, student_info.student_lname, student_info.student_address, "
-                     + "student_info.student_gender, student_info.fathers_name, student_info.mothers_name, student_info.age, "
-                     + "student_info.gradelvl, student_info.section, user_info.fname, user_info.lname, user_info.username\n" +
-                       "FROM student_info INNER JOIN user_info\n" +
-                       "on student_info.student_fname = user_info.fname AND student_info.student_lname = user_info.lname WHERE username = ?";
-        try {
-            pst = MySQL_Connection.getConnection().prepareStatement(query);
-            pst.setString(1, username);
-            rs = pst.executeQuery();
-            
-            if (rs.next()){
-                txt_fname.setText(rs.getString("student_fname"));
-                txt_lname.setText(rs.getString("student_lname"));
-                txt_address.setText(rs.getString("student_address"));
-                txt_gender.setText(rs.getString("student_gender"));
-                txt_age.setText(rs.getString("age"));
-                txt_father.setText(rs.getString("fathers_name"));
-                txt_mother.setText(rs.getString("mothers_name"));
-                txt_grade.setText(rs.getString("gradelvl"));
-                txt_section.setText(rs.getString("section"));
-
-                
-            } else{
-                txt_fname.setText("");
-                txt_lname.setText("");
-                txt_address.setText("");
-                txt_gender.setText("");
-                txt_age.setText("");
-                txt_father.setText("");
-                txt_mother.setText("");
-                txt_grade.setText("");
-                txt_section.setText("");
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(TeacherViewProfileUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,27 +48,7 @@ public class StudentViewProfileUI extends javax.swing.JFrame {
         logout_btn = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        teachermanagement_lbl = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        txt_mother = new javax.swing.JTextField();
-        txt_fname = new javax.swing.JTextField();
-        txt_lname = new javax.swing.JTextField();
-        txt_address = new javax.swing.JTextField();
-        txt_gender = new javax.swing.JTextField();
-        txt_father = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        txt_age = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
-        txt_section = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
-        txt_grade = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -265,7 +195,7 @@ public class StudentViewProfileUI extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Welcome"+" "+LoginSession.fname);
+        jLabel1.setText("Welcome Student");
         sidepanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 210, 40));
 
         logout_btn.setBackground(new java.awt.Color(0, 51, 204));
@@ -313,98 +243,9 @@ public class StudentViewProfileUI extends javax.swing.JFrame {
 
         bg.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 720));
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 255));
-
-        teachermanagement_lbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        teachermanagement_lbl.setForeground(new java.awt.Color(255, 255, 255));
-        teachermanagement_lbl.setText("Your Profile");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(teachermanagement_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(618, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(teachermanagement_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 900, 60));
-
-        jPanel2.setBackground(new java.awt.Color(153, 204, 255));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel13.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel13.setText("Section:");
-        jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 190, -1, 32));
-
-        jLabel14.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel14.setText("First Name:");
-        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 86, 32));
-
-        jLabel15.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel15.setText("Last Name:");
-        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 86, 32));
-
-        jLabel16.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel16.setText("Address:");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 86, 32));
-
-        jLabel17.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel17.setText("Age:");
-        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 86, 32));
-
-        jLabel18.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel18.setText("Father's Name: ");
-        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, 120, 32));
-
-        txt_mother.setEditable(false);
-        jPanel2.add(txt_mother, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 140, 190, 30));
-
-        txt_fname.setEditable(false);
-        jPanel2.add(txt_fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 190, 30));
-
-        txt_lname.setEditable(false);
-        jPanel2.add(txt_lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 190, 30));
-
-        txt_address.setEditable(false);
-        jPanel2.add(txt_address, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 190, 30));
-
-        txt_gender.setEditable(false);
-        jPanel2.add(txt_gender, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 190, 30));
-
-        txt_father.setEditable(false);
-        jPanel2.add(txt_father, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 90, 190, 30));
-
-        jLabel19.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel19.setText("Gender:");
-        jPanel2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 86, 32));
-
-        txt_age.setEditable(false);
-        jPanel2.add(txt_age, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 190, 30));
-
-        jLabel20.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel20.setText("Mother's Name:");
-        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 140, -1, 32));
-
-        txt_section.setEditable(false);
-        jPanel2.add(txt_section, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 100, 30));
-
-        jLabel21.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
-        jLabel21.setText("Grade Level:");
-        jPanel2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 190, -1, 32));
-
-        txt_grade.setEditable(false);
-        jPanel2.add(txt_grade, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 40, 30));
-
-        bg.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, 840, 540));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setLabelFor(bg);
+        bg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -496,37 +337,17 @@ public class StudentViewProfileUI extends javax.swing.JFrame {
     private javax.swing.JPanel home_btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel logout_btn;
     private javax.swing.JPanel profile_btn;
     private javax.swing.JPanel sidepanel;
-    private javax.swing.JLabel teachermanagement_lbl;
-    private javax.swing.JTextField txt_address;
-    private javax.swing.JTextField txt_age;
-    private javax.swing.JTextField txt_father;
-    private javax.swing.JTextField txt_fname;
-    private javax.swing.JTextField txt_gender;
-    private javax.swing.JTextField txt_grade;
-    private javax.swing.JTextField txt_lname;
-    private javax.swing.JTextField txt_mother;
-    private javax.swing.JTextField txt_section;
     // End of variables declaration//GEN-END:variables
 }
