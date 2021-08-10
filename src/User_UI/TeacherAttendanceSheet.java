@@ -51,7 +51,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        DisplayRecordsButton = new JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         sidepanel = new javax.swing.JPanel();
@@ -88,35 +87,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton3.setText("Enter");
-        jButton3.addActionListener( new ActionListener() {
-            public void actionPerformed (ActionEvent ae) {
-                NextScreenActionPerformed(ae);
-            }
-        });
         bg.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
-
-        DisplayRecordsButton.setText("Display");
-        DisplayRecordsButton.addActionListener( new ActionListener() {
-            public void actionPerformed (ActionEvent ae) {
-
-                PreparedStatement pst;
-                ResultSet rs;
-
-                String query =  "SELECT * FROM new_att_system.AttendanceDate WHERE tagstudent_id = ?";
-                try {
-                    pst = MySQL_Connection.getConnection().prepareStatement(query);
-                    pst.setString(1,LoginSession.sectionId);
-                    rs = pst.executeQuery();
-                    jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        bg.add(DisplayRecordsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 660, 210, 30));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Current Dates" }));
         bg.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 120, 30));
@@ -135,15 +106,15 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
 
         jLabel14.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel14.setText("Subject Teacher:");
-        bg.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
+        bg.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 131, -1, 30));
 
         jLabel15.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel15.setText("Department:");
-        bg.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, -1));
+        bg.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, -1, 30));
 
         jLabel13.setFont(new java.awt.Font("NSimSun", 1, 15)); // NOI18N
         jLabel13.setText("Subject:");
-        bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, -1, -1));
+        bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, -1, 30));
 
         jButton1.setText("Delete");
         bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 210, 30));
@@ -545,7 +516,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton DisplayRecordsButton;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
