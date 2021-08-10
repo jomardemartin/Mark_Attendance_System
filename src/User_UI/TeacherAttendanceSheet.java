@@ -71,11 +71,11 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         manage_btn = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         teachermanagement_lbl = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -364,10 +364,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
 
         bg.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 720));
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setLabelFor(bg);
-        bg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 720));
-
         jPanel1.setBackground(new java.awt.Color(0, 102, 255));
 
         teachermanagement_lbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -394,6 +390,9 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 900, 60));
         bg.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 250, 30));
         bg.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 250, 30));
+
+        jButton4.setText("Display");
+        bg.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 660, 110, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -516,6 +515,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -531,7 +531,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
