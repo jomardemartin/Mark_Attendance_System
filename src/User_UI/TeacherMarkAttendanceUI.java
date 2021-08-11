@@ -61,15 +61,15 @@ public class TeacherMarkAttendanceUI extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bg = new JPanel();
-        jTextField1 = new JTextField();
-        jLabel14 = new JLabel();
-        jLabel15 = new JLabel();
-        jLabel13 = new JLabel();
-        jButton1 = new JButton();
-        jScrollPane1 = new JScrollPane();
-        jTable1 = new JTable();
-        sidepanel = new JPanel();
+        bg = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        sidepanel = new javax.swing.JPanel();
         home_btn = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -84,9 +84,6 @@ public class TeacherMarkAttendanceUI extends JFrame {
         logout_btn = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        manage_btn = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         teachermanagement_lbl = new javax.swing.JLabel();
@@ -105,22 +102,17 @@ public class TeacherMarkAttendanceUI extends JFrame {
 
         jLabel14.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel14.setText("Subject Teacher:");
-        bg.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
+        bg.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 131, -1, 30));
 
         jLabel15.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel15.setText("Department:");
-        bg.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, -1));
+        bg.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 171, -1, 30));
 
-        jLabel13.setFont(new java.awt.Font("NSimSun", 1, 15)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel13.setText("Subject:");
-        bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, -1, -1));
+        bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 208, -1, 30));
 
         jButton1.setText("Enter");
-        jButton1.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                NextScreenActionPerformed(evt);
-            }
-        });
         bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 210, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -274,7 +266,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Welcome Teacher");
+        jLabel1.setText("Welcome"+" "+LoginSession.fname);
         sidepanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 210, 40));
 
         logout_btn.setBackground(new java.awt.Color(0, 51, 204));
@@ -319,52 +311,6 @@ public class TeacherMarkAttendanceUI extends JFrame {
         );
 
         sidepanel.add(logout_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 300, 50));
-
-        manage_btn.setBackground(new java.awt.Color(0, 51, 204));
-        manage_btn.setToolTipText("");
-        manage_btn.setMinimumSize(new java.awt.Dimension(260, 0));
-        manage_btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                manage_btnMousePressed(evt);
-            }
-        });
-
-        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Manage Attendance");
-        jLabel11.setMaximumSize(new java.awt.Dimension(51, 25));
-        jLabel11.setMinimumSize(new java.awt.Dimension(51, 25));
-        jLabel11.setPreferredSize(new java.awt.Dimension(51, 25));
-
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User_UI/images/icons8_attendance_32px.png"))); // NOI18N
-
-        javax.swing.GroupLayout manage_btnLayout = new javax.swing.GroupLayout(manage_btn);
-        manage_btn.setLayout(manage_btnLayout);
-        manage_btnLayout.setHorizontalGroup(
-            manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(manage_btnLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
-        manage_btnLayout.setVerticalGroup(
-            manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(manage_btnLayout.createSequentialGroup()
-                .addGroup(manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(manage_btnLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, manage_btnLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        sidepanel.add(manage_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 300, 70));
 
         bg.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 720));
 
@@ -430,7 +376,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
         setColor(home_btn);
         resetColor(profile_btn);
         resetColor(mark_btn);
-        resetColor(manage_btn);
+ 
         TeacherHomeUI home = new TeacherHomeUI();
         home.setVisible(true);
         home.setLocationRelativeTo(null);
@@ -443,7 +389,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
         setColor(profile_btn);
         resetColor(home_btn);
         resetColor(mark_btn);
-        resetColor(manage_btn);
+
         TeacherViewProfileUI view = new TeacherViewProfileUI();
         view.setVisible(true);
         view.setLocationRelativeTo(null);
@@ -456,7 +402,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
         setColor(mark_btn);
         resetColor(home_btn);
         resetColor(profile_btn);
-        resetColor(manage_btn);
+
         TeacherMarkAttendanceUI mark = new TeacherMarkAttendanceUI();
         mark.setVisible(true);
         mark.setLocationRelativeTo(null);
@@ -467,19 +413,6 @@ public class TeacherMarkAttendanceUI extends JFrame {
     private void logout_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_btnMousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_logout_btnMousePressed
-
-    private void manage_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manage_btnMousePressed
-        // TODO add your handling code here:
-        setColor(manage_btn);
-        resetColor(home_btn);
-        resetColor(profile_btn);
-        resetColor(mark_btn);
-        TeacherManageAttendanceUI manage = new TeacherManageAttendanceUI();
-        manage.setVisible(true);
-        manage.setLocationRelativeTo(null);
-        manage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
-    }//GEN-LAST:event_manage_btnMousePressed
 
     /**
      * @param args the command line arguments
@@ -507,36 +440,33 @@ public class TeacherMarkAttendanceUI extends JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel bg;
-    private JPanel home_btn;
-    private JButton jButton1;
-    private JLabel jLabel1;
-    private JLabel jLabel10;
-    private JLabel jLabel11;
-    private JLabel jLabel12;
-    private JLabel jLabel13;
-    private JLabel jLabel14;
-    private JLabel jLabel15;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
-    private JLabel jLabel9;
-    private JPanel jPanel1;
-    private JScrollPane jScrollPane1;
-    private JSeparator jSeparator1;
-    private JTable jTable1;
-    private JTextField jTextField1;
-    private JTextField jTextField2;
-    private JTextField jTextField3;
-    private JPanel logout_btn;
-    private JPanel manage_btn;
-    private JPanel mark_btn;
-    private JPanel profile_btn;
-    private JPanel sidepanel;
-    private JLabel teachermanagement_lbl;
+    private javax.swing.JPanel bg;
+    private javax.swing.JPanel home_btn;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JPanel logout_btn;
+    private javax.swing.JPanel mark_btn;
+    private javax.swing.JPanel profile_btn;
+    private javax.swing.JPanel sidepanel;
+    private javax.swing.JLabel teachermanagement_lbl;
     // End of variables declaration//GEN-END:variables
 }

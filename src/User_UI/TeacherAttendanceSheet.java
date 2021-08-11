@@ -29,7 +29,26 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
      */
     public TeacherAttendanceSheet() {
         initComponents();
-        
+        this.retrieveInitialData();
+    }
+    
+    public void retrieveInitialData () {
+        PreparedStatement pst;
+        ResultSet rs;
+
+        String query =  "";
+
+        try {
+            pst = MySQL_Connection.getConnection().prepareStatement(query);
+            pst.setString(1,LoginSession.fname);
+            pst.setString(2,LoginSession.lname);
+
+            rs = pst.executeQuery();
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -42,15 +61,15 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     private void initComponents() {
 
         bg = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        enter_btn = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        add_date_btn = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        delete_btn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         sidepanel = new javax.swing.JPanel();
@@ -68,14 +87,11 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         logout_btn = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        manage_btn = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         teachermanagement_lbl = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        display_btn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -86,8 +102,8 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         bg.setPreferredSize(new java.awt.Dimension(1200, 720));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton3.setText("Enter");
-        bg.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
+        enter_btn.setText("Enter");
+        bg.add(enter_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Current Dates" }));
         bg.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 120, 30));
@@ -100,8 +116,13 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         });
         bg.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 220, 120, 30));
 
-        jButton2.setText("Add Date");
-        bg.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1069, 223, 80, 30));
+        add_date_btn.setText("Add Date");
+        add_date_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                add_date_btnMouseClicked(evt);
+            }
+        });
+        bg.add(add_date_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 220, 90, 30));
         bg.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 250, 30));
 
         jLabel14.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
@@ -112,25 +133,42 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         jLabel15.setText("Department:");
         bg.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, -1, 30));
 
-        jLabel13.setFont(new java.awt.Font("NSimSun", 1, 15)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel13.setText("Subject:");
         bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, -1, 30));
 
-        jButton1.setText("Delete");
-        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 210, 30));
+        delete_btn.setText("Delete");
+        bg.add(delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 210, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
-                "Dates"
+                "Date_ID", "Dates"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(100);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
 
         bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 270, 790, 360));
 
@@ -270,7 +308,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Welcome Teacher");
+        jLabel1.setText("Welcome"+" "+LoginSession.fname);
         sidepanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 210, 40));
 
         logout_btn.setBackground(new java.awt.Color(0, 51, 204));
@@ -316,52 +354,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
 
         sidepanel.add(logout_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 300, 50));
 
-        manage_btn.setBackground(new java.awt.Color(0, 51, 204));
-        manage_btn.setToolTipText("");
-        manage_btn.setMinimumSize(new java.awt.Dimension(260, 0));
-        manage_btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                manage_btnMousePressed(evt);
-            }
-        });
-
-        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Manage Attendance");
-        jLabel11.setMaximumSize(new java.awt.Dimension(51, 25));
-        jLabel11.setMinimumSize(new java.awt.Dimension(51, 25));
-        jLabel11.setPreferredSize(new java.awt.Dimension(51, 25));
-
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User_UI/images/icons8_attendance_32px.png"))); // NOI18N
-
-        javax.swing.GroupLayout manage_btnLayout = new javax.swing.GroupLayout(manage_btn);
-        manage_btn.setLayout(manage_btnLayout);
-        manage_btnLayout.setHorizontalGroup(
-            manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(manage_btnLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
-        manage_btnLayout.setVerticalGroup(
-            manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(manage_btnLayout.createSequentialGroup()
-                .addGroup(manage_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(manage_btnLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, manage_btnLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        sidepanel.add(manage_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 300, 70));
-
         bg.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 720));
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 255));
@@ -391,8 +383,8 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         bg.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 250, 30));
         bg.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 250, 30));
 
-        jButton4.setText("Display");
-        bg.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 660, 110, 30));
+        display_btn.setText("Display");
+        bg.add(display_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 660, 110, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -424,7 +416,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         setColor(home_btn);
         resetColor(profile_btn);
         resetColor(mark_btn);
-        resetColor(manage_btn);
+
         TeacherHomeUI home = new TeacherHomeUI();
         home.setVisible(true);
         home.setLocationRelativeTo(null);
@@ -437,7 +429,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         setColor(profile_btn);
         resetColor(home_btn);
         resetColor(mark_btn);
-        resetColor(manage_btn);
+
         TeacherViewProfileUI view = new TeacherViewProfileUI();
         view.setVisible(true);
         view.setLocationRelativeTo(null);
@@ -450,7 +442,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         setColor(mark_btn);
         resetColor(home_btn);
         resetColor(profile_btn);
-        resetColor(manage_btn);
+
         TeacherAttendanceSheet mark = new TeacherAttendanceSheet();
         mark.setVisible(true);
         mark.setLocationRelativeTo(null);
@@ -462,22 +454,17 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_logout_btnMousePressed
 
-    private void manage_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manage_btnMousePressed
-        // TODO add your handling code here:
-        setColor(manage_btn);
-        resetColor(home_btn);
-        resetColor(profile_btn);
-        resetColor(mark_btn);
-        TeacherManageAttendanceUI manage = new TeacherManageAttendanceUI();
-        manage.setVisible(true);
-        manage.setLocationRelativeTo(null);
-        manage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
-    }//GEN-LAST:event_manage_btnMousePressed
-
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void add_date_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_date_btnMouseClicked
+        // TODO add your handling code here:
+        TeacherAddDate adddate = new TeacherAddDate();
+        adddate.setVisible(true);
+        adddate.setLocationRelativeTo(null);
+        adddate.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_add_date_btnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -510,18 +497,16 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_date_btn;
     private javax.swing.JPanel bg;
+    private javax.swing.JButton delete_btn;
+    private javax.swing.JButton display_btn;
+    private javax.swing.JButton enter_btn;
     private javax.swing.JPanel home_btn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -540,7 +525,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JPanel logout_btn;
-    private javax.swing.JPanel manage_btn;
     private javax.swing.JPanel mark_btn;
     private javax.swing.JPanel profile_btn;
     private javax.swing.JPanel sidepanel;

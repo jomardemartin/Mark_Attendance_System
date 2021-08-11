@@ -6,6 +6,14 @@
 package User_UI;
 
 import java.awt.Color;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 
@@ -22,7 +30,7 @@ public class TeacherAddDate extends javax.swing.JFrame {
         initComponents();
 
     }
-    
+
     
     
     /**
@@ -36,7 +44,9 @@ public class TeacherAddDate extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        add_date_btn = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        test = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -47,36 +57,58 @@ public class TeacherAddDate extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Date:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 50, 30));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 50, 30));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Add Data");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        add_date_btn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        add_date_btn.setText("Add Date");
+        add_date_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                add_date_btnMouseClicked(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 110, 30));
+        jPanel1.add(add_date_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 110, 30));
+
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 250, 30));
+        jPanel1.add(test, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 250, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void add_date_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_date_btnMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        PreparedStatement pst;
+        ResultSet rs;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String date = df.format(jDateChooser1.getDate());
+        
+        String query = "";
+        
+        try {
+            pst = MySQL_Connection.getConnection().prepareStatement(query);
+            pst.setString(1, date);
+            rs = pst.executeQuery();
+            this.dispose();      
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherAddDate.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        
+        //To Test Add Date is working
+        //test.setText(date);
+    }//GEN-LAST:event_add_date_btnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -109,8 +141,10 @@ public class TeacherAddDate extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton add_date_btn;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField test;
     // End of variables declaration//GEN-END:variables
 }
