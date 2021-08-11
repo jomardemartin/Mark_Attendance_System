@@ -7,6 +7,9 @@ package User_UI;
 
 import Login_Registration.LoginLoginForm;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,16 +17,32 @@ import javax.swing.JPanel;
  *
  * @author NEK PC
  */
-public class AdminHomeUI extends javax.swing.JFrame {
-
+public class AdminHomeUI extends javax.swing.JFrame implements Runnable{
+    
+    int hour, minute, second;
     /**
      * Creates new form AdminUI
      */
     public AdminHomeUI() {
         initComponents();
-        
+        Thread t = new Thread(this);
+        t.start();
     }
-
+    
+    @Override
+    public void run(){
+        while (true){
+            Calendar cal = Calendar.getInstance();
+            hour = cal.get(Calendar.HOUR_OF_DAY);
+            minute = cal.get(Calendar.MINUTE);
+            second = cal.get(Calendar.SECOND);
+            
+            SimpleDateFormat sdf12 = new SimpleDateFormat("HH:mm:ss aa");
+            Date dat = cal.getTime();
+            String  time12 = sdf12.format(dat);
+            time_lbl.setText(time12);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,6 +71,8 @@ public class AdminHomeUI extends javax.swing.JFrame {
         tag_btn = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        time_lbl = new javax.swing.JLabel();
+        home_image = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -289,6 +310,13 @@ public class AdminHomeUI extends javax.swing.JFrame {
 
         bg.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 720));
 
+        time_lbl.setFont(new java.awt.Font("Felix Titling", 0, 48)); // NOI18N
+        time_lbl.setForeground(new java.awt.Color(51, 51, 0));
+        bg.add(time_lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 630, 340, 60));
+
+        home_image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User_UI/images/home_image4.png"))); // NOI18N
+        bg.add(home_image, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 720));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -398,6 +426,7 @@ public class AdminHomeUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JPanel home_btn;
+    private javax.swing.JLabel home_image;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -415,5 +444,6 @@ public class AdminHomeUI extends javax.swing.JFrame {
     private javax.swing.JPanel student_btn;
     private javax.swing.JPanel tag_btn;
     private javax.swing.JPanel teacher_btn;
+    private javax.swing.JLabel time_lbl;
     // End of variables declaration//GEN-END:variables
 }
