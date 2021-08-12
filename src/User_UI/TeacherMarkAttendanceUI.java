@@ -18,6 +18,7 @@ import net.proteanit.sql.DbUtils;
 import Login_Registration.LoginSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -457,6 +458,22 @@ public class TeacherMarkAttendanceUI extends JFrame {
 
     private void enter_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enter_btnMouseClicked
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+	JOptionPane.showMessageDialog(null, "No Selected Row");
+	}else {
+	System.out.println("selected row value:"+ selectedRow); //to show index of row in terminal
+        
+
+        TeacherAttendanceSheet sheet = new TeacherAttendanceSheet();
+        sheet.setVisible(true);
+        sheet.setLocationRelativeTo(null);
+        sheet.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+      
+	
+        }
     }//GEN-LAST:event_enter_btnMouseClicked
 
     /**

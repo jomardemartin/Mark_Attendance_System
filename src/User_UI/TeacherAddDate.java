@@ -93,12 +93,12 @@ public class TeacherAddDate extends javax.swing.JFrame {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(jDateChooser1.getDate());
         
-        String query = "";
+        String query = "INSERT INTO attendancedate(date)VALUES(?)";
         
         try {
             pst = MySQL_Connection.getConnection().prepareStatement(query);
             pst.setString(1, date);
-            rs = pst.executeQuery();
+            pst.executeUpdate();
             this.dispose();      
             
         } catch (SQLException ex) {

@@ -5,6 +5,7 @@
  */
 package User_UI;
 
+import Login_Registration.LoginLoginForm;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.*;
@@ -16,6 +17,8 @@ import User_UI.TeacherAttendanceSheet;
 import net.proteanit.sql.DbUtils;
 import User_UI.TeacherAttendanceStudentList;
 import Login_Registration.LoginSession;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -30,18 +33,19 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     public TeacherAttendanceSheet() {
         initComponents();
         this.retrieveInitialData();
+        this.retrieveTxtfieldData();
     }
-    
+        
     public void retrieveInitialData () {
         PreparedStatement pst;
         ResultSet rs;
 
-        String query =  "";
+        String query = "SELECT id,date FROM new_att_system.attendancedate";
 
         try {
             pst = MySQL_Connection.getConnection().prepareStatement(query);
-            pst.setString(1,LoginSession.fname);
-            pst.setString(2,LoginSession.lname);
+            //pst.setString(1,LoginSession.fname);
+            //pst.setString(2,LoginSession.lname);
 
             rs = pst.executeQuery();
             jTable1.setModel(DbUtils.resultSetToTableModel(rs));
@@ -50,7 +54,36 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    public void retrieveTxtfieldData(){
+        PreparedStatement pst;
+        ResultSet rs;
+        String username = LoginSession.username;
+        String query = "SELECT teacher_info.teacher_fname, teacher_info.teacher_lname,"
+                     + " teacher_info.subject, teacher_info.department, user_info.username \n" +
+                       "FROM teacher_info INNER JOIN user_info\n" +
+                       "on teacher_info.teacher_fname = user_info.fname AND teacher_info.teacher_lname = user_info.lname WHERE username = ?";
+        try {
+            pst = User_UI.MySQL_Connection.getConnection().prepareStatement(query);
+            pst.setString(1, username);
+            rs = pst.executeQuery();
+            
+            if (rs.next()){
+                String fname = rs.getString("teacher_fname");
+                String lname = rs.getString("teacher_lname");
+                txt_teacher.setText(fname+" "+lname);
+                txt_department.setText(rs.getString("department"));
+                txt_subject.setText(rs.getString("subject"));
 
+            } else{
+                txt_teacher.setText("");
+                txt_subject.setText("");
+                txt_department.setText("");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherViewProfileUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +98,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox1 = new javax.swing.JComboBox<>();
         add_date_btn = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txt_subject = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -89,8 +122,8 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         teachermanagement_lbl = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txt_teacher = new javax.swing.JTextField();
+        txt_department = new javax.swing.JTextField();
         display_btn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -123,7 +156,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
             }
         });
         bg.add(add_date_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 220, 90, 30));
-        bg.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 250, 30));
+        bg.add(txt_subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 250, 30));
 
         jLabel14.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel14.setText("Subject Teacher:");
@@ -380,8 +413,8 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         );
 
         bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 900, 60));
-        bg.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 250, 30));
-        bg.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 250, 30));
+        bg.add(txt_teacher, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 250, 30));
+        bg.add(txt_department, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 250, 30));
 
         display_btn.setText("Display");
         bg.add(display_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 660, 110, 30));
@@ -443,7 +476,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         resetColor(home_btn);
         resetColor(profile_btn);
 
-        TeacherAttendanceSheet mark = new TeacherAttendanceSheet();
+        TeacherMarkAttendanceUI mark = new TeacherMarkAttendanceUI();
         mark.setVisible(true);
         mark.setLocationRelativeTo(null);
         mark.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -452,6 +485,12 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
 
     private void logout_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_btnMousePressed
         // TODO add your handling code here:
+        LoginLoginForm relogin = new LoginLoginForm();
+        relogin.setVisible(true);
+        relogin.pack();
+        relogin.setLocationRelativeTo(null);
+        relogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
     }//GEN-LAST:event_logout_btnMousePressed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -521,13 +560,13 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JPanel logout_btn;
     private javax.swing.JPanel mark_btn;
     private javax.swing.JPanel profile_btn;
     private javax.swing.JPanel sidepanel;
     private javax.swing.JLabel teachermanagement_lbl;
+    private javax.swing.JTextField txt_department;
+    private javax.swing.JTextField txt_subject;
+    private javax.swing.JTextField txt_teacher;
     // End of variables declaration//GEN-END:variables
 }
