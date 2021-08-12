@@ -5,6 +5,7 @@
  */
 package User_UI;
 
+import Login_Registration.LoginLoginForm;
 import Login_Registration.LoginSession;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -426,6 +427,12 @@ public class TeacherViewProfileUI extends javax.swing.JFrame {
 
     private void logout_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_btnMousePressed
         // TODO add your handling code here:
+        LoginLoginForm relogin = new LoginLoginForm();
+        relogin.setVisible(true);
+        relogin.pack();
+        relogin.setLocationRelativeTo(null);
+        relogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
     }//GEN-LAST:event_logout_btnMousePressed
 
     /**

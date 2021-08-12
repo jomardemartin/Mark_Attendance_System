@@ -5,6 +5,7 @@
  */
 package User_UI;
 
+import Login_Registration.LoginLoginForm;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.*;
@@ -15,6 +16,8 @@ import Login_Registration.MySQL_Connection;
 import User_UI.TeacherAttendanceSheet;
 import net.proteanit.sql.DbUtils;
 import Login_Registration.LoginSession;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -28,6 +31,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
     public TeacherMarkAttendanceUI() {
         initComponents();
         this.retrieveInitialData();
+        this.retrieveTxtfieldData();
     }
 
     public void retrieveInitialData () {
@@ -52,6 +56,37 @@ public class TeacherMarkAttendanceUI extends JFrame {
         }
     }
 
+    public void retrieveTxtfieldData(){
+        PreparedStatement pst;
+        ResultSet rs;
+        String username = LoginSession.username;
+        String query = "SELECT teacher_info.teacher_fname, teacher_info.teacher_lname,"
+                     + " teacher_info.subject, teacher_info.department, user_info.username \n" +
+                       "FROM teacher_info INNER JOIN user_info\n" +
+                       "on teacher_info.teacher_fname = user_info.fname AND teacher_info.teacher_lname = user_info.lname WHERE username = ?";
+        try {
+            pst = User_UI.MySQL_Connection.getConnection().prepareStatement(query);
+            pst.setString(1, username);
+            rs = pst.executeQuery();
+            
+            if (rs.next()){
+                String fname = rs.getString("teacher_fname");
+                String lname = rs.getString("teacher_lname");
+                txt_teacher.setText(fname+" "+lname);
+                txt_department.setText(rs.getString("department"));
+                txt_subject.setText(rs.getString("subject"));
+
+            } else{
+                txt_teacher.setText("");
+                txt_subject.setText("");
+                txt_department.setText("");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherViewProfileUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,11 +97,11 @@ public class TeacherMarkAttendanceUI extends JFrame {
     private void initComponents() {
 
         bg = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_subject = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        enter_btn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         sidepanel = new javax.swing.JPanel();
@@ -84,11 +119,10 @@ public class TeacherMarkAttendanceUI extends JFrame {
         logout_btn = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         teachermanagement_lbl = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txt_teacher = new javax.swing.JTextField();
+        txt_department = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -98,7 +132,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
         bg.setMinimumSize(new java.awt.Dimension(1000, 720));
         bg.setPreferredSize(new java.awt.Dimension(1200, 720));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        bg.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 250, 30));
+        bg.add(txt_subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 250, 30));
 
         jLabel14.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel14.setText("Subject Teacher:");
@@ -112,8 +146,13 @@ public class TeacherMarkAttendanceUI extends JFrame {
         jLabel13.setText("Subject:");
         bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 208, -1, 30));
 
-        jButton1.setText("Enter");
-        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 210, 30));
+        enter_btn.setText("Enter");
+        enter_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                enter_btnMouseClicked(evt);
+            }
+        });
+        bg.add(enter_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 210, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -314,10 +353,6 @@ public class TeacherMarkAttendanceUI extends JFrame {
 
         bg.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 720));
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setLabelFor(bg);
-        bg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 890, 720));
-
         jPanel1.setBackground(new java.awt.Color(0, 102, 255));
 
         teachermanagement_lbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -342,8 +377,8 @@ public class TeacherMarkAttendanceUI extends JFrame {
         );
 
         bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 900, 60));
-        bg.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 250, 30));
-        bg.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 250, 30));
+        bg.add(txt_teacher, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 250, 30));
+        bg.add(txt_department, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 250, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -412,7 +447,17 @@ public class TeacherMarkAttendanceUI extends JFrame {
 
     private void logout_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_btnMousePressed
         // TODO add your handling code here:
+        LoginLoginForm relogin = new LoginLoginForm();
+        relogin.setVisible(true);
+        relogin.pack();
+        relogin.setLocationRelativeTo(null);
+        relogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
     }//GEN-LAST:event_logout_btnMousePressed
+
+    private void enter_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enter_btnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_enter_btnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -441,8 +486,8 @@ public class TeacherMarkAttendanceUI extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
+    private javax.swing.JButton enter_btn;
     private javax.swing.JPanel home_btn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
@@ -454,19 +499,18 @@ public class TeacherMarkAttendanceUI extends JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JPanel logout_btn;
     private javax.swing.JPanel mark_btn;
     private javax.swing.JPanel profile_btn;
     private javax.swing.JPanel sidepanel;
     private javax.swing.JLabel teachermanagement_lbl;
+    private javax.swing.JTextField txt_department;
+    private javax.swing.JTextField txt_subject;
+    private javax.swing.JTextField txt_teacher;
     // End of variables declaration//GEN-END:variables
 }
