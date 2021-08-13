@@ -32,6 +32,16 @@ public class TeacherAddDate extends javax.swing.JFrame {
 
     }
 
+    // Utility Function
+    public static String removeLastChar(String str) {
+        return removeLastChars(str, 1);
+    }
+
+    public static String removeLastChars(String str, int chars) {
+        return str.substring(0, str.length() - chars);
+    }
+
+
     
     
     /**
@@ -99,22 +109,59 @@ public class TeacherAddDate extends javax.swing.JFrame {
         ResultSet rs;
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(jDateChooser1.getDate());
-        
-        
+
         String query = "INSERT INTO AttendanceDate(date, tagstudent_id)VALUES(?,?)";
         System.out.println(LoginSession.sectionId);
         try {
             pst = MySQL_Connection.getConnection().prepareStatement(query);
             pst.setString(1, date);
             pst.setString(2, LoginSession.sectionId);
-            pst.executeUpdate();
-            this.dispose();      
-            
+            int status = pst.executeUpdate();
+
+
+            if (status > 0 ) {
+                String studentAttQuery = "INSERT INTO new_att_system.attendance (student_info_user_idfk, AttendanceRecord_id) VALUES ";
+                //(11,5) , (12,5);"
+
+                ResultSet sectionRs, attendanceRecordRS;
+
+                String sectionQuery = "SELECT user_idfk FROM student_info WHERE section = ? ";
+                String attendanceQuery = "SELECT id FROM AttendanceDate WHERE date=? AND tagstudent_id=?";
+
+
+                PreparedStatement sectionPst = MySQL_Connection.getConnection().prepareStatement(sectionQuery);
+                sectionPst.setString(1,LoginSession.realSectionId);
+
+                PreparedStatement attendancePst = MySQL_Connection.getConnection().prepareStatement(attendanceQuery);
+                attendancePst.setString(1, date);
+                attendancePst.setString(2, LoginSession.sectionId);
+
+
+                sectionRs = sectionPst.executeQuery();
+                attendanceRecordRS = attendancePst.executeQuery();
+                attendanceRecordRS.next();
+
+                while (sectionRs.next()) {
+                    studentAttQuery += "(" + sectionRs.getInt("user_idfk")+ "," + attendanceRecordRS.getInt("id") + ")";
+                    studentAttQuery += ",";
+                }
+
+                studentAttQuery = this.removeLastChar(studentAttQuery);
+
+                System.out.println(studentAttQuery);
+
+                PreparedStatement studentListPST;
+                studentListPST = MySQL_Connection.getConnection().prepareStatement(studentAttQuery);
+                studentListPST.executeUpdate();
+            }
+            this.dispose();
+
         } catch (SQLException ex) {
-            Logger.getLogger(TeacherAddDate.class.getName()).log(Level.SEVERE, null, ex);
+
+            ex.printStackTrace();
 
         }
-        
+
         //To Test Add Date is working
 
     }//GEN-LAST:event_add_date_btnMouseClicked
