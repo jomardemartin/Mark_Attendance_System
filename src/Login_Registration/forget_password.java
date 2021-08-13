@@ -3,8 +3,12 @@ package Login_Registration;
 import javax.swing.JFrame;
 import java.sql.Array.*;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -34,17 +38,20 @@ public class forget_password extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         forgot_username = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        forgot_securityq = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
         forgot_securityans = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         new_password = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
+        secuqtext = new javax.swing.JLabel();
         jButton1_forgot = new javax.swing.JButton();
         back = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.setName(""); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -60,13 +67,20 @@ public class forget_password extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel16.setText("Security Question:");
 
-        forgot_securityq.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Where is your Birthplace?", "What primary School did you attend?", "What is the name of your brother/sister?", "Your favorite movie?", "Your favorite food?" }));
-
         jLabel17.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel17.setText("Security Answer:");
 
         jLabel4.setFont(new java.awt.Font("Nirmala UI", 1, 15)); // NOI18N
         jLabel4.setText("New Password:");
+
+        jButton1.setText("Check");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        secuqtext.setText("Check Username First");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -76,23 +90,24 @@ public class forget_password extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(new_password, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(forgot_securityans, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(forgot_securityq, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(new_password)
+                            .addComponent(forgot_securityans)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17)
                                     .addComponent(jLabel16)
-                                    .addComponent(forgot_username, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(20, 20, 20))))
+                                    .addComponent(jLabel2)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(forgot_username, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton1)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(secuqtext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,11 +115,13 @@ public class forget_password extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(forgot_username, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(forgot_username, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(forgot_securityq, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(secuqtext, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -126,8 +143,8 @@ public class forget_password extends javax.swing.JFrame {
             }
         });
 
-        back.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Login_Pic/back-icon.png"))); // NOI18N
+        back.setToolTipText("");
         back.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 backMouseClicked(evt);
@@ -148,22 +165,20 @@ public class forget_password extends javax.swing.JFrame {
                         .addGap(45, 45, 45)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(back)
-                        .addGap(57, 57, 57)
-                        .addComponent(jLabel1)))
+                        .addComponent(back)))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(back)))
+                .addContainerGap()
+                .addComponent(back)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -190,16 +205,17 @@ public class forget_password extends javax.swing.JFrame {
 
     private void jButton1_forgotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_forgotActionPerformed
         // forgot password
+        PreparedStatement pst;
+        String query = "UPDATE user_info SET password=?, cpassword=? WHERE username=?";   
         String username = forgot_username.getText();
-        String securityq = (String) forgot_securityq.getSelectedItem();
+        String checkqueryuser = "SELECT * FROM user_info WHERE username = '"+ username +"'";
         String securityans = forgot_securityans.getText();
+        String checkquerseq = "SELECT * FROM user_info WHERE username = '"+ username +"' AND security_q = '"+ username +"'";
         String newpass = String.valueOf(new_password.getPassword());;
+        
         
         if (username.equals("")){
             JOptionPane.showMessageDialog(null, "Input Username!");
-        }
-        else if (securityq.equals("")){
-            JOptionPane.showMessageDialog(null, "Select Security Question!");
         }
         else if (securityans.equals("")){
             JOptionPane.showMessageDialog(null, "Input Security Answer!");
@@ -208,15 +224,41 @@ public class forget_password extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Input New Password!");
         }
         else{
-            try {
-                Statement st = MySQL_Connection.getConnection().createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM user_info WHERE username='"+forgot_username+"' AND sequrity_a='"+forgot_securityans+"'");
-                if(rs.next())
-                {
-                    st.executeUpdate("UPDATE user_info SET password'"+new_password+"' WHERE username='"+forgot_username+"' AND security_a='"+forgot_securityans+"'");
+            try{
+                Statement stmt = MySQL_Connection.getConnection().createStatement();
+                
+                stmt.executeQuery(checkqueryuser);
+                try{
+                    Statement stm = MySQL_Connection.getConnection().createStatement();
+                    ResultSet rs3 = stm.executeQuery("SELECT security_a FROM user_info where username = '"+ username +"'");
+                    
+                    while(rs3.next()){
+                    String secuqurity = rs3.getString("security_a");
+                    
+                    System.out.println(secuqurity + securityans);
+                    if(secuqurity.equals(securityans)){
+                            try {
+                                pst = MySQL_Connection.getConnection().prepareStatement(query);
+                                pst.setString(1, newpass);
+                                pst.setString(2, newpass);
+                                pst.setString(3, username);            
+                                pst.executeUpdate();
+
+                            JOptionPane.showMessageDialog(null, "Password changed!");
+                            } catch (Exception e) {
+                                System.out.println("kek");
+                            } 
+                    }else{
+                            JOptionPane.showMessageDialog(null, "Wrong answer!");
+                    }
+                    }
+                }catch (Exception e){
+                    
                 }
-            } catch (Exception e) {
+            }catch (SQLException ex){
+                 Logger.getLogger(LoginStudentForm.class.getName()).log(Level.SEVERE, null, ex);
             }
+           
                 
                
          
@@ -227,8 +269,27 @@ public class forget_password extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1_forgotActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            // TODO add your handling code here:
+        try{
+        String username = forgot_username.getText();    
+        Statement stm = MySQL_Connection.getConnection().createStatement();
+        ResultSet rs3 = stm.executeQuery("SELECT security_q FROM user_info where username = '"+ username +"'");
+        
+         secuqtext.setText(" ");
+        while(rs3.next()){
+            String secuqurity = rs3.getString("security_q");
+            secuqtext.setText(secuqurity);
+        }
+        
+        }catch(Exception e){
+            System.out.println("kek");
+        }
+            
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
-        // return to login
+        // TODO add your handling code here:
         LoginLoginForm relogin = new LoginLoginForm();
         relogin.setVisible(true);
         relogin.pack();
@@ -275,8 +336,8 @@ public class forget_password extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel back;
     private javax.swing.JTextField forgot_securityans;
-    private javax.swing.JComboBox<String> forgot_securityq;
     private javax.swing.JTextField forgot_username;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton1_forgot;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
@@ -286,5 +347,6 @@ public class forget_password extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField new_password;
+    private javax.swing.JLabel secuqtext;
     // End of variables declaration//GEN-END:variables
 }
