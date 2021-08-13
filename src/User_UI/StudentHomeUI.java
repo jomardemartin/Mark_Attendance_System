@@ -5,7 +5,11 @@
  */
 package User_UI;
 
+import Login_Registration.LoginSession;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -13,16 +17,32 @@ import javax.swing.JPanel;
  *
  * @author NEK PC
  */
-public class StudentHomeUI extends javax.swing.JFrame {
+public class StudentHomeUI extends javax.swing.JFrame implements Runnable{
 
+    int hour, minute, second;
     /**
      * Creates new form AdminUI
      */
     public StudentHomeUI() {
         initComponents();
-        
+        Thread t = new Thread(this);
+        t.start();
     }
-
+    
+    @Override
+    public void run(){
+        while (true){
+            Calendar cal = Calendar.getInstance();
+            hour = cal.get(Calendar.HOUR_OF_DAY);
+            minute = cal.get(Calendar.MINUTE);
+            second = cal.get(Calendar.SECOND);
+            
+            SimpleDateFormat sdf12 = new SimpleDateFormat("HH:mm:ss aa");
+            Date dat = cal.getTime();
+            String  time12 = sdf12.format(dat);
+            time_lbl.setText(time12);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,7 +68,8 @@ public class StudentHomeUI extends javax.swing.JFrame {
         logout_btn = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        time_lbl = new javax.swing.JLabel();
+        home_image = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -195,7 +216,7 @@ public class StudentHomeUI extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Welcome Student");
+        jLabel1.setText("Welcome"+" "+LoginSession.fname);
         sidepanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 210, 40));
 
         logout_btn.setBackground(new java.awt.Color(0, 51, 204));
@@ -243,9 +264,12 @@ public class StudentHomeUI extends javax.swing.JFrame {
 
         bg.add(sidepanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 720));
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setLabelFor(bg);
-        bg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 720));
+        time_lbl.setFont(new java.awt.Font("Felix Titling", 0, 48)); // NOI18N
+        time_lbl.setForeground(new java.awt.Color(51, 51, 0));
+        bg.add(time_lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 630, 340, 60));
+
+        home_image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User_UI/images/home_image4.png"))); // NOI18N
+        bg.add(home_image, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -335,6 +359,7 @@ public class StudentHomeUI extends javax.swing.JFrame {
     private javax.swing.JPanel attendance_btn;
     private javax.swing.JPanel bg;
     private javax.swing.JPanel home_btn;
+    private javax.swing.JLabel home_image;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -343,11 +368,11 @@ public class StudentHomeUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel logout_btn;
     private javax.swing.JPanel profile_btn;
     private javax.swing.JPanel sidepanel;
+    private javax.swing.JLabel time_lbl;
     // End of variables declaration//GEN-END:variables
 }

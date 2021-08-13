@@ -15,7 +15,7 @@ public class MySQL_Connection {
         Connection conn = null;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/new_att_system", "root","root");           
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/new_att_system", "root","root");
         }
         catch(Exception ex){  
         }

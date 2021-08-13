@@ -365,11 +365,6 @@ public class AdminStudentManagementUI extends javax.swing.JFrame {
                 edit_btnMouseClicked(evt);
             }
         });
-        edit_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edit_btnActionPerformed(evt);
-            }
-        });
         bg.add(edit_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 630, 160, 40));
 
         delete_btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -547,10 +542,6 @@ public class AdminStudentManagementUI extends javax.swing.JFrame {
     private void student_sectionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_student_sectionItemStateChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_student_sectionItemStateChanged
-
-    private void edit_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_btnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edit_btnActionPerformed
 
     private void student_gradelvlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_gradelvlActionPerformed
         // TODO add your handling code here:

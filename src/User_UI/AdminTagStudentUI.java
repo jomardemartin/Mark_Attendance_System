@@ -728,13 +728,13 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
                 PreparedStatement ps;
                 String query2 = "INSERT INTO grade_section(gradelvl, section)VALUES (?, ?)";
                 int status = 0;
-                
+
                 try{
                 ps = MySQL_Connection.getConnection().prepareStatement(query2);
                 ps.setString(1, gradelvl);
                 ps.setString(2, section);
-                      
-                status = ps.executeUpdate();            
+
+                status = ps.executeUpdate();
 
                 if(status > 0){
                        try{
@@ -982,7 +982,11 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
         
         PreparedStatement pst;
         ResultSet rs;
-        String query = "SELECT teacher_name as 'Teacher Name', grade_section as 'Grade & Section' FROM tagstudent";
+        String query = "SELECT CONCAT(grade_section.gradelvl, ' ', grade_section.section) as 'Grade & Section', "
+            + "CONCAT(teacher_info.teacher_fname, ' ', teacher_info.teacher_lname) as 'Teacher Name' "
+            + "FROM grade_section INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
+            + "INNER JOIN teacher_info ON teacher_info.user_idfk = tagstudent.teacher_info_user_idfk ;";
+
         try {
 	pst = MySQL_Connection.getConnection().prepareStatement(query);
 	rs = pst.executeQuery();
