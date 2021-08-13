@@ -101,7 +101,7 @@ public class TeacherAddDate extends javax.swing.JFrame {
         String date = df.format(jDateChooser1.getDate());
         
         
-        String query = "INSERT INTO attendancedate(date, tagstudent_id)VALUES(?,?)";
+        String query = "INSERT INTO AttendanceDate(date, tagstudent_id)VALUES(?,?)";
         System.out.println(LoginSession.sectionId);
         try {
             pst = MySQL_Connection.getConnection().prepareStatement(query);
