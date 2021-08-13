@@ -39,7 +39,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
         PreparedStatement pst;
         ResultSet rs;
 
-        String query =  "SELECT tagstudent.id, gradelvl, section FROM grade_section "
+        String query =  "SELECT tagstudent.id, gradelvl, section, grade_section.id as 'Section_Code' FROM grade_section "
             + "INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
             + "INNER JOIN teacher_info ON teacher_info.user_idfk = tagstudent.teacher_info_user_idfk "
             + "WHERE teacher_info.teacher_fname = ? AND teacher_info.teacher_lname = ? ";
@@ -398,9 +398,11 @@ public class TeacherMarkAttendanceUI extends JFrame {
     private void NextScreenActionPerformed (ActionEvent ae) {
         int selectedRow = jTable1.getSelectedRow();
         String id = jTable1.getModel().getValueAt(selectedRow, 0).toString();
+        String realSectionId = jTable1.getModel().getValueAt(selectedRow, 3).toString();
 
         // Adds a new section Id for later use for next frames 
         LoginSession.sectionId = id;
+        LoginSession.realSectionId = realSectionId;
 
         TeacherAttendanceSheet new_screen = new TeacherAttendanceSheet() ;
 

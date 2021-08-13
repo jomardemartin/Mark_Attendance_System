@@ -16,4 +16,5 @@ public class LoginSession {
         public static String usertype;
         public static String sectionId;
         public static String dateId;
+        public static String realSectionId;
 }
