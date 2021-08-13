@@ -103,18 +103,14 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         enter_btn.setText("Enter");
-        bg.add(enter_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
-      
-        jButton3.setText("Enter");
-        jButton3.addActionListener( new ActionListener() {
+        enter_btn.addActionListener( new ActionListener() {
             public void actionPerformed (ActionEvent ae) {
                 NextScreenActionPerformed(ae);
             }
         });
-        bg.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
+        bg.add(enter_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
 
-        DisplayRecordsButton.setText("Display");
-        DisplayRecordsButton.addActionListener( new ActionListener() {
+        display_btn.addActionListener( new ActionListener() {
             public void actionPerformed (ActionEvent ae) {
 
                 PreparedStatement pst;
@@ -135,8 +131,6 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
             }
         });
 
-        bg.add(DisplayRecordsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 660, 210, 30));
-      
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Current Dates" }));
         bg.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 120, 30));
 

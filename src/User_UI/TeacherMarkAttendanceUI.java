@@ -147,9 +147,9 @@ public class TeacherMarkAttendanceUI extends JFrame {
         bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 208, -1, 30));
 
         enter_btn.setText("Enter");
-        enter_btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                enter_btnMouseClicked(evt);
+        enter_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextScreenActionPerformed(evt);
             }
         });
         bg.add(enter_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 210, 30));
