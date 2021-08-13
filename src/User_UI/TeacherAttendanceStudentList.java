@@ -345,7 +345,7 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
                 select_all_boxActionPerformed(evt);
             }
         });
-        bg.add(select_all_box, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 150, -1, -1));
+        // bg.add(select_all_box, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 150, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -366,7 +366,7 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
         bg.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 770, 450));
 
         jButton1.setText("Print Record");
-        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 153, -1, 20));
+        // bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 153, -1, 20));
 
         jButton2.setText("Submit");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
