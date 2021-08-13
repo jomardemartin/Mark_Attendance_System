@@ -226,6 +226,12 @@ public class LoginLoginForm extends javax.swing.JFrame {
 
     private void forget_passwordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forget_passwordMouseClicked
         // TODO add your handling code here:
+        forget_password forget = new forget_password();
+                forget.setVisible(true);
+                forget.pack();
+                forget.setLocationRelativeTo(null);
+                forget.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.dispose();
     }//GEN-LAST:event_forget_passwordMouseClicked
 
     private void jButton1_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_loginActionPerformed
