@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import net.proteanit.sql.DbUtils;
+import java.util.ArrayList;
 
 /**
  *
@@ -51,6 +52,7 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
 
         bg = new javax.swing.JPanel();
         sidepanel = new javax.swing.JPanel();
@@ -624,7 +626,7 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
                 jComboBox1.addItem(gradelvl2 + " " + section2);
             }
         }catch(Exception e){
-
+            e.printStackTrace();
         }
 
         bg.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 200, 460, 490));
@@ -714,6 +716,7 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
             String gradelvl = Grade_level_combobox.getSelectedItem().toString();
             String section = txtfield_section.getText();
             Statement stmt = MySQL_Connection.getConnection().createStatement();
+
             String query = "SELECT * FROM grade_section WHERE gradelvl='" + gradelvl + "' AND section='" + section + "'";
             
             ResultSet rs = stmt.executeQuery(query);
@@ -767,26 +770,44 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         String teachername = teachertag_combobox.getSelectedItem().toString();
         String gradesection = grade_sectiontag_combobox.getSelectedItem().toString();
+        int teacherId=0, sectionId=0;
+        PreparedStatement ps1;
         PreparedStatement ps2;
         PreparedStatement ps3;
-        String query2 = "INSERT INTO tagstudent(teacher_name, grade_section)VALUES (?, ?)";
-        String query3 = "UPDATE tagstudent SET grade_section = '" + gradesection + "' WHERE teacher_name = '" + teachername + "'";
+        PreparedStatement ps6;
+
+        String query2 = "INSERT INTO tagstudent(grade_section_id, teacher_info_user_idfk)VALUES (?, ?)";
         int status = 0;
         try{
+            // replace credentials with ID records
+            String sectionCheckQuery = "SELECT id FROM new_att_system.grade_section WHERE CONCAT(grade_section.gradelvl, ' ', grade_section.section)=?";
+            ps1 = MySQL_Connection.getConnection().prepareStatement(sectionCheckQuery);
+            ps1.setString(1, gradesection);
+            ResultSet rs1 = ps1.executeQuery();
+            rs1.next();
+            sectionId = rs1.getInt("id");
+
+            String teacherCheckQuery = "SELECT user_idfk FROM new_att_system.teacher_info WHERE CONCAT(teacher_info.teacher_fname, ' ', teacher_info.teacher_lname ) = ?;";
+            ps6 = MySQL_Connection.getConnection().prepareStatement(teacherCheckQuery);
+            ps6.setString(1, teachername);
+            ResultSet rs2 = ps6.executeQuery();
+            rs2.next();
+            teacherId = rs2.getInt("user_idfk");
+
             ps2 = MySQL_Connection.getConnection().prepareStatement(query2);
-            ps2.setString(1, teachername);
-            ps2.setString(2, gradesection);
+            ps2.setString(1, Integer.toString(sectionId));
+            ps2.setString(2, Integer.toString(teacherId));
             status = ps2.executeUpdate();
-            
-                    
-                    
+
             if(status > 0){
                     table_load2();
                     JOptionPane.showMessageDialog(null, "Tagging of Section Successful");
                 }
         } catch(Exception e){
-            
+            e.printStackTrace();
             try {
+
+                String query3 = "UPDATE tagstudent SET grade_section_id = '" +sectionId + "' WHERE teacher_info_user_idfk = '" + teacherId + "'";
                 ps3 = MySQL_Connection.getConnection().prepareStatement(query3);
                 ps3.execute();
                 JOptionPane.showMessageDialog(null, "Tagging of Section Successful");
@@ -871,20 +892,24 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
     private void display2_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_display2_btnActionPerformed
         // TODO add your handling code here:
         String gradesection2 = jComboBox1.getSelectedItem().toString();
-        
-        
+
         PreparedStatement pst;
         ResultSet rs;
-        String query = "SELECT teacher_name as 'Teacher Name', grade_section as 'Grade & Section' FROM tagstudent where grade_section = '" + gradesection2 + "'";
-      try {
-	pst = MySQL_Connection.getConnection().prepareStatement(query);
-	rs = pst.executeQuery();
-			
-	jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        String query = "SELECT CONCAT(grade_section.gradelvl, ' ', grade_section.section) as 'Grade & Section', "
+            + "CONCAT(teacher_info.teacher_fname, ' ', teacher_info.teacher_lname) as 'Teacher Name' "
+            + "FROM grade_section INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
+            + "INNER JOIN teacher_info ON teacher_info.user_idfk = tagstudent.teacher_info_user_idfk "
+            + "WHERE CONCAT(grade_section.gradelvl, ' ', grade_section.section) = ? ;";
+
+        try {
+            pst = MySQL_Connection.getConnection().prepareStatement(query);
+            pst.setString(1,gradesection2);
+            rs = pst.executeQuery();
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-	}
+        }
     }//GEN-LAST:event_display2_btnActionPerformed
 
     private void bttn_delete_grade_sectionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttn_delete_grade_sectionMouseClicked
@@ -1018,6 +1043,12 @@ public class AdminTagStudentUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> teachertag_combobox;
     private javax.swing.JTextField txtfield_section;
     // End of variables declaration//GEN-END:variables
+
+    // User Defined Variables 
+    private ArrayList<String> sectionLevels;
+    private ArrayList<String> sectionNames;
+    private ArrayList<String> teachersFirstNames;
+    private ArrayList<String> teachersLastNames;
 }
 
 class ButtonRenderer extends JButton implements  TableCellRenderer
