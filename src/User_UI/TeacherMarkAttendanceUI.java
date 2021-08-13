@@ -39,7 +39,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
         PreparedStatement pst;
         ResultSet rs;
 
-        String query =  "SELECT grade_section.id, gradelvl, section FROM grade_section "
+        String query =  "SELECT tagstudent.id, gradelvl, section FROM grade_section "
             + "INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
             + "INNER JOIN teacher_info ON teacher_info.user_idfk = tagstudent.teacher_info_user_idfk "
             + "WHERE teacher_info.teacher_fname = ? AND teacher_info.teacher_lname = ? ";
@@ -148,9 +148,9 @@ public class TeacherMarkAttendanceUI extends JFrame {
         bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 208, -1, 30));
 
         enter_btn.setText("Enter");
-        enter_btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                enter_btnMouseClicked(evt);
+        enter_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextScreenActionPerformed(evt);
             }
         });
         bg.add(enter_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 210, 30));

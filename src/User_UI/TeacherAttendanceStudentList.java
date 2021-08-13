@@ -30,14 +30,23 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
         initComponents();
         getStudentList();
     }
-    
+
+    // Utility Function
+    public static String removeLastChar(String str) {
+        return removeLastChars(str, 1);
+    }
+
+    public static String removeLastChars(String str, int chars) {
+        return str.substring(0, str.length() - chars);
+    }
+
     //Arraylist for table
     public ArrayList<StudentListTable> StudentListTableArray(){
         ArrayList<StudentListTable> studentlist = new ArrayList<StudentListTable>();
 
         PreparedStatement pst;
         ResultSet rs;
-        String query = "SELECT attendance.status as status,  student_info.student_lname, student_info.student_fname "
+        String query = "SELECT attendance_id, attendance.status as status,  student_info.student_lname, student_info.student_fname "
             + "FROM new_att_system.attendance "
             + "INNER JOIN new_att_system.student_info ON student_info.user_idfk = attendance.student_info_user_idfk "
             + "WHERE attendance.AttendanceRecord_id = ?";
@@ -50,6 +59,7 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
             while(rs.next()){
                 StudentListTable students;
                 students = new StudentListTable(
+                    rs.getString("attendance_id"),
                     rs.getString("student_fname"),
                     rs.getString("student_lname"),
                     rs.getString("status")
@@ -68,10 +78,11 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
     public void getStudentList(){
         ArrayList<StudentListTable> list = StudentListTableArray();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        Object [] obj = new Object[2];
+        Object [] obj = new Object[3];
         for (int i=0; i <list.size(); i++){
-            obj[0] = list.get(i).getName();
-            obj[1] = list.get(i).getStatus();
+            obj[0] = list.get(i).getId();
+            obj[1] = list.get(i).getName();
+            obj[2] = list.get(i).getStatus();
             model.addRow(obj);
         }
     }
@@ -341,16 +352,12 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Student Name", "Status"
+                "attendance_id", "Student Name", "Status",
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.Object.class
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
         });
         jTable1.setColumnSelectionAllowed(true);
         jScrollPane2.setViewportView(jTable1);
@@ -362,6 +369,11 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
         bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 153, -1, 20));
 
         jButton2.setText("Submit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateAttendanceActionPerformed(evt);
+            }
+        });
         bg.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 660, 150, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -425,6 +437,67 @@ public class TeacherAttendanceStudentList extends javax.swing.JFrame {
     private void select_all_boxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_select_all_boxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_select_all_boxActionPerformed
+
+    private void updateAttendanceActionPerformed(java.awt.event.ActionEvent evt) {
+        int selectedRows[] = jTable1.getSelectedRows();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int allowQuery1Counter=0 ;
+        int allowQuery2Counter=0;
+
+        String presentQuery = "UPDATE attendance set status ='Present' WHERE attendance.attendance_id in (";
+        String absentQuery = "UPDATE attendance set status ='Absent' WHERE attendance.attendance_id in (";
+
+        for (int row : selectedRows){
+            int id = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
+
+            String status = model.getValueAt(row, 2).toString();
+            System.out.println(status);
+
+            String val = id + ",";
+
+            if (status.equals("Present")) {
+                absentQuery += val;
+                allowQuery2Counter ++;
+            }
+            else {
+
+                presentQuery += val;
+                allowQuery1Counter ++;
+            }
+        }
+        model.setRowCount(0);
+
+        if (allowQuery1Counter >= 1) {
+            presentQuery = this.removeLastChar(presentQuery);
+        }
+
+        if (allowQuery2Counter >= 1) {
+            absentQuery = this.removeLastChar(absentQuery);
+        }
+
+        presentQuery += ")";
+        absentQuery += ")";
+        System.out.println(presentQuery);
+        System.out.println(absentQuery);
+
+        try {
+
+            if (allowQuery1Counter > 0 ) {
+                PreparedStatement p1;
+                p1 = MySQL_Connection.getConnection().prepareStatement(presentQuery);
+                p1.execute();
+            }
+             if (allowQuery2Counter > 0 ) {
+                PreparedStatement p2;
+                p2 = MySQL_Connection.getConnection().prepareStatement(absentQuery);
+                p2.execute();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.getStudentList();
+
+    }
 
     /**
      * @param args the command line arguments

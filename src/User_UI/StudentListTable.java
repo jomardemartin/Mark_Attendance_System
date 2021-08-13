@@ -10,7 +10,7 @@ package User_UI;
  * @author NEK PC
  */
 public class StudentListTable {
-    
+    public String attendance_id;
     public String student_fname;
     public String student_lname;
     public String name;
@@ -19,10 +19,11 @@ public class StudentListTable {
     
     
     //Constructor
-    public StudentListTable(String fname, String lname, String status){
+    public StudentListTable(String attendance_id, String fname, String lname, String status){
         this.student_fname = fname;
         this.student_lname = lname;
         this.status = status;
+        this.attendance_id = attendance_id;
 
     }
     
@@ -34,6 +35,11 @@ public class StudentListTable {
     public String getStatus(){
         return this.status;
     }
+
+    public String getId() {
+        return this.attendance_id;
+    }
+
 
     
 

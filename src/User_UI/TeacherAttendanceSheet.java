@@ -136,7 +136,33 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         enter_btn.setText("Enter");
+        enter_btn.addActionListener( new ActionListener() {
+            public void actionPerformed (ActionEvent ae) {
+                NextScreenActionPerformed(ae);
+            }
+        });
         bg.add(enter_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
+
+        display_btn.addActionListener( new ActionListener() {
+            public void actionPerformed (ActionEvent ae) {
+
+                PreparedStatement pst;
+                ResultSet rs;
+
+                String query =  "SELECT * FROM new_att_system.AttendanceDate WHERE tagstudent_id = ?";
+                System.out.println(LoginSession.sectionId);
+                try {
+                    pst = MySQL_Connection.getConnection().prepareStatement(query);
+                    pst.setString(1,LoginSession.sectionId);
+                    rs = pst.executeQuery();
+                    jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Current Dates" }));
         bg.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 120, 30));
