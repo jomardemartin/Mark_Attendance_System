@@ -38,7 +38,7 @@ public class TeacherMarkAttendanceUI extends JFrame {
         PreparedStatement pst;
         ResultSet rs;
 
-        String query =  "SELECT grade_section.id, gradelvl, section FROM grade_section "
+        String query =  "SELECT tagstudent.id, gradelvl, section FROM grade_section "
             + "INNER JOIN tagstudent ON grade_section.id = tagstudent.grade_section_id "
             + "INNER JOIN teacher_info ON teacher_info.user_idfk = tagstudent.teacher_info_user_idfk "
             + "WHERE teacher_info.teacher_fname = ? AND teacher_info.teacher_lname = ? ";

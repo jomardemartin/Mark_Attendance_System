@@ -104,7 +104,39 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
 
         enter_btn.setText("Enter");
         bg.add(enter_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
+      
+        jButton3.setText("Enter");
+        jButton3.addActionListener( new ActionListener() {
+            public void actionPerformed (ActionEvent ae) {
+                NextScreenActionPerformed(ae);
+            }
+        });
+        bg.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 660, 210, 30));
 
+        DisplayRecordsButton.setText("Display");
+        DisplayRecordsButton.addActionListener( new ActionListener() {
+            public void actionPerformed (ActionEvent ae) {
+
+                PreparedStatement pst;
+                ResultSet rs;
+
+                String query =  "SELECT * FROM new_att_system.AttendanceDate WHERE tagstudent_id = ?";
+                System.out.println(LoginSession.sectionId);
+                try {
+                    pst = MySQL_Connection.getConnection().prepareStatement(query);
+                    pst.setString(1,LoginSession.sectionId);
+                    rs = pst.executeQuery();
+                    jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        bg.add(DisplayRecordsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 660, 210, 30));
+      
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Current Dates" }));
         bg.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 120, 30));
 
