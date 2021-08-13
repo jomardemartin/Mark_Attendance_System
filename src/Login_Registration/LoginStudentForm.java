@@ -401,7 +401,7 @@ public class LoginStudentForm extends javax.swing.JFrame {
         String mother = mother_name.getText();
         String age = age_text.getText();
         String gradelvl = student_gradelvl.getSelectedItem().toString();
-        String section = student_section.getSelectedItem().toString();
+        String section = gradelvl + " "  + student_section.getSelectedItem().toString();
         String username = student_username.getText();
         String email = student_email.getText();
         String password = String.valueOf(student_password.getPassword());
@@ -409,8 +409,21 @@ public class LoginStudentForm extends javax.swing.JFrame {
         String securityq = student_securityq.getSelectedItem().toString();
         String securitya = student_securityans.getText();
         String usertype = "Student";
-        
 
+
+        try {
+            PreparedStatement pscheck;
+            String sectionCheckQuery = "SELECT id FROM new_att_system.grade_section WHERE CONCAT(grade_section.gradelvl, ' ', grade_section.section)=?";
+            pscheck = MySQL_Connection.getConnection().prepareStatement(sectionCheckQuery);
+            pscheck.setString(1, section);
+            ResultSet rs1 = pscheck.executeQuery();
+            rs1.next();
+            String sectionId = Integer.toString(rs1.getInt("id"));
+
+            section = sectionId;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         //Field requirements for registration
         if (fname.equals("")){

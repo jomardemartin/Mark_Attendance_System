@@ -641,9 +641,21 @@ public class AdminEditStudent extends javax.swing.JFrame {
         String mothername = txt_mothername.getText();
         String age = txt_age.getText();
         String gradelvl = student_gradelvl.getSelectedItem().toString();
-        String section = student_section.getSelectedItem().toString();
+        String section =gradelvl + " " +  student_section.getSelectedItem().toString();
         String id = txt_id.getText();
+
         try {
+
+            PreparedStatement pscheck;
+            String sectionCheckQuery = "SELECT id FROM new_att_system.grade_section WHERE CONCAT(grade_section.gradelvl, ' ', grade_section.section)=?";
+            pscheck = MySQL_Connection.getConnection().prepareStatement(sectionCheckQuery);
+            pscheck.setString(1, section);
+            ResultSet rs1 = pscheck.executeQuery();
+            rs1.next();
+            String sectionId = Integer.toString(rs1.getInt("id"));
+
+            section = sectionId;
+
             pst = MySQL_Connection.getConnection().prepareStatement(query);
 
             pst.setString(1, fname);
