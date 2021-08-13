@@ -40,7 +40,7 @@ public class TeacherAttendanceSheet extends javax.swing.JFrame {
         PreparedStatement pst;
         ResultSet rs;
 
-        String query = "SELECT id,date FROM new_att_system.attendancedate";
+        String query = "SELECT id,date FROM new_att_system.AttendanceDate";
 
         try {
             pst = MySQL_Connection.getConnection().prepareStatement(query);
