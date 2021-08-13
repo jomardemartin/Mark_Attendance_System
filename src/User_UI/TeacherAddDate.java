@@ -5,6 +5,7 @@
  */
 package User_UI;
 
+import Login_Registration.LoginSession;
 import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,11 +67,17 @@ public class TeacherAddDate extends javax.swing.JFrame {
                 add_date_btnMouseClicked(evt);
             }
         });
-        jPanel1.add(add_date_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 110, 30));
+        jPanel1.add(add_date_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 110, 30));
 
         jDateChooser1.setDateFormatString("yyyy-MM-dd");
         jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 250, 30));
-        jPanel1.add(test, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 250, 30));
+
+        test.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testActionPerformed(evt);
+            }
+        });
+        jPanel1.add(test, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 250, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,11 +100,13 @@ public class TeacherAddDate extends javax.swing.JFrame {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(jDateChooser1.getDate());
         
-        String query = "INSERT INTO attendancedate(date)VALUES(?)";
         
+        String query = "INSERT INTO attendancedate(date, tagstudent_id)VALUES(?,?)";
+        System.out.println(LoginSession.sectionId);
         try {
             pst = MySQL_Connection.getConnection().prepareStatement(query);
             pst.setString(1, date);
+            pst.setString(2, LoginSession.sectionId);
             pst.executeUpdate();
             this.dispose();      
             
@@ -107,8 +116,12 @@ public class TeacherAddDate extends javax.swing.JFrame {
         }
         
         //To Test Add Date is working
-        //test.setText(date);
+
     }//GEN-LAST:event_add_date_btnMouseClicked
+
+    private void testActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testActionPerformed
 
     /**
      * @param args the command line arguments
